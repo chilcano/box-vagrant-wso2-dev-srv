@@ -1,0 +1,161 @@
+#!/bin/bash
+#
+### BEGIN INIT INFO
+# Provides:          wso2esb02a
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Service to Start up stopped services at server startup
+# Description:       Deamon Service to Start up stopped services at server startup
+### END INIT INFO
+
+USER="vagrant"
+PRODUCT_CODE="WSO2ESB02A"
+CARBON_HOME="/opt/wso2esb02a"
+LOCK_FILE="${CARBON_HOME}/wso2carbon.lck"
+PID_FILE="${CARBON_HOME}/wso2carbon.pid"
+CMD="${CARBON_HOME}/bin/wso2server.sh"
+JAVA_HOME="/usr/java/latest"
+
+export JAVA_HOME=$JAVA_HOME
+
+# Status the service
+status() {
+ if [ -f $PID_FILE ]
+     then
+  PID=`cat $PID_FILE`
+  ps -fp $PID > /dev/null 2>&1
+  PIDVAL=$?
+     else
+  PIDVAL=3
+ fi
+
+ if [ $PIDVAL -eq 0 ]
+     then
+  echo "$PRODUCT_CODE server is running ..."
+     else
+  echo "$PRODUCT_CODE server is stopped."
+ fi
+ return $PIDVAL
+}
+
+# Start the service
+start() {
+ if [ -f $PID_FILE ]
+     then
+  PID=`cat $PID_FILE`
+  ps -fp $PID > /dev/null 2>&1
+  PIDVAL=$?
+     else
+  PIDVAL=3
+ fi
+
+ if [ $PIDVAL -eq 0 ]
+     then
+        echo "$PRODUCT_CODE server is running ..."
+     else
+        echo -n "Starting $PRODUCT_CODE server ... "
+        touch $LOCK_FILE
+        su - $USER -c "$CMD start > /dev/null 2>&1 &"
+        sleep 5
+        if [ -f $PID_FILE ]
+     then
+   PID=`cat $PID_FILE`
+   ps -fp $PID > /dev/null 2>&1
+   PIDVAL=$?
+   if [ $PIDVAL -eq 0 ]
+       then
+    echo "success"
+       else
+    echo "failure"
+   fi
+     else
+   echo "failure"
+   PIDVAL=2
+        fi
+ fi
+ echo
+ return $PIDVAL
+}
+
+# Restart the service
+restart() {
+ echo -n "Restarting $PRODUCT_CODE server ... "
+ touch $LOCK_FILE
+ su - $USER -c "$CMD restart > /dev/null 2>&1 &"
+ sleep 15
+ if [ -f $PID_FILE ]
+     then
+  PID=`cat $PID_FILE`
+  ps -fp $PID > /dev/null 2>&1
+  PIDVAL=$?
+  if [ $PIDVAL -eq 0 ]
+      then
+   echo "success"
+      else
+   echo "failure"
+  fi
+     else
+  echo "failure"
+  PIDVAL=2
+ fi
+ echo
+ return $PIDVAL
+}
+
+# Stop the service
+stop() {
+ if [ -f $PID_FILE ]
+     then
+  PID=`cat $PID_FILE`
+  ps -fp $PID > /dev/null 2>&1
+  PIDVAL=$?
+  if [ $PIDVAL -eq 0 ]
+      then
+   echo -n "Stopping $PRODUCT_CODE server ... "
+   su - $USER -c "$CMD stop > /dev/null 2>&1 &"
+   rm -f $LOCK_FILE
+   sleep 10
+   PID=`cat $PID_FILE`
+   ps -fp $PID > /dev/null 2>&1
+   PIDVAL=$?
+   if [ $PIDVAL -eq 0 ]
+       then
+    echo "failure"
+    PIDVAL=2
+       else
+    echo "success"
+    PIDVAL=0
+   fi
+      else
+         echo "$PRODUCT_CODE server is not running."
+         PIDVAL=0
+  fi
+     else
+        echo "$PRODUCT_CODE server is not running."
+        PIDVAL=0
+ fi
+ echo
+ return $PIDVAL
+}
+
+### main logic ###
+case "$1" in
+start)
+    start
+    ;;
+stop)
+    stop
+    ;;
+status)
+    status
+    ;;
+restart|reload|condrestart)
+    restart
+    ;;
+*)
+   echo $"Usage: $0 {start|stop|restart|reload|status}"
+   exit 1
+esac
+exit $?

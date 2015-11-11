@@ -4,7 +4,7 @@ This VM is ready to develop with WSO2 and puts focus to work with WSO2 but in th
 The main objetive is to have a VM with all WSO2 products installed and configured to be ready for development and following the monst common Middleware infrastructure pattern used to create (Micro)services.
 The `naming` used in `hostnames` tries to use pre-defined values what also will be used in Integration and Production Environments. The `ports` and `offsets` used do not follow any special rule.
 
-https://github.com/Chilcano/box-vagrant-wso2-dev-srv/blob/master/_downloads/chilcano-box-vagrant-wso2-dev-srv-map.png
+![WSO2 Development Server Map](https://github.com/Chilcano/box-vagrant-wso2-dev-srv/blob/master/_downloads/chilcano-box-vagrant-wso2-dev-srv-map.png "WSO2 Development Server Map")
 
 This VM tries to implement 2 tiers for the middleware and they are:
 

@@ -223,7 +223,7 @@ Now, if you reboot the VM, the %WSO2_SERVER_NAME% will start too.
 
 ## Troubleshooting
 
-1. `Error: Cannot allocate memory - fork(2)`
+1.- `Error: Cannot allocate memory - fork(2)`
 
 This is because there is space in the swap partition or there isn't swap partition.
 
@@ -236,9 +236,9 @@ Mem:          4038       2551       1487          0         13        195
 -/+ buffers/cache:       2342       1696
 Swap:
 ```
-Follow this instructions to solve this: https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-12-04
+Follow this instructions to solve it: https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-12-04
 
-2. `here your issue`
+2.- `here your issue`
 
 ```
 Drop me an message at chilcano =at= intix.info

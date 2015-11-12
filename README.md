@@ -129,35 +129,15 @@ $ vagrant ssh
 
 ## Starting the WSO2 servers
 
-1. When start the first time any WSO2 server, you have to run this command in your VM with user `vagrant`:
+
+1. When starting the first time any WSO2 server, you have to run this command in your VM with user `vagrant`:
 
 ```
 $ vagrant ssh 
-Welcome to Ubuntu 14.04.3 LTS (GNU/Linux 3.13.0-67-generic i686)
 
- * Documentation:  https://help.ubuntu.com/
+...
 
-  System information as of Tue Nov 10 18:38:12 UTC 2015
-
-  System load:  0.0                Processes:           79
-  Usage of /:   11.0% of 39.34GB   Users logged in:     0
-  Memory usage: 2%                 IP address for eth0: 10.0.2.15
-  Swap usage:   0%                 IP address for eth1: 192.168.11.20
-
-  Graph this data and manage this system at:
-    https://landscape.canonical.com/
-
-  Get cloud support with Ubuntu Advantage Cloud Guest:
-    http://www.ubuntu.com/business/services/cloud
-
-
-Last login: Tue Nov 10 18:38:13 2015 from 10.0.2.2
-
-[07:21 AM]-[vagrant@wso2-dev-srv-01]-[~] 
-$ cd /opt/%WSO2_SERVER_NAME%/bin
-
-[07:21 AM]-[vagrant@wso2-dev-srv-01]-[/opt/wso2esb01a/bin]
-$ ./wso2server.sh -Dsetup
+$ ./opt/%WSO2_SERVER_NAME%/bin/wso2server.sh -Dsetup
 ...
 [2015-11-11 07:21:20,886]  INFO - RegistryEventingServiceComponent Successfully Initialized Eventing on Registry
 [2015-11-11 07:21:21,361]  INFO - JMXServerManager JMX Service URL  : service:jmx:rmi://localhost:11117/jndi/rmi://localhost:10005/jmxrmi
@@ -166,7 +146,7 @@ $ ./wso2server.sh -Dsetup
 [2015-11-11 07:21:21,701]  INFO - CarbonUIServiceComponent Mgt Console URL  : https://192.168.11.20:9449/carbon/
 ```
 
-Repeat the process replacing `%WSO2_SERVER_NAME% for:
+Repeat this process replacing `%WSO2_SERVER_NAME% for:
 * `wso2am02a`
 * `wso2esb01`
 * `wso2esb02`
@@ -175,11 +155,20 @@ Repeat the process replacing `%WSO2_SERVER_NAME% for:
 
 To close the running server, just CTRL+C in the shell console where the server is running.
 
+
 2. The next times when you want to start the WSO2 servers, I recommend to use the init.d scripts:
 
 ```
 $ sudo service %WSO2_SERVER_NAME% start|stop|restart
 ```
+
+Repeat this process replacing `%WSO2_SERVER_NAME% for:
+* `wso2am02a`
+* `wso2esb01`
+* `wso2esb02`
+* `wso2dss01a`
+* `wso2greg01a`
+
 
 3. For Wiremock
 
@@ -188,15 +177,22 @@ $ sudo service wiremock start|stop|restart
 ```
 
 
-## Enable linux services to start automatically
+## Enabling linux services to start automatically
 
-All WSO2 servers and Wiremock can start automatically, to do that, just enable or apply defaults to the run levels for the init.d script:
+All WSO2 servers and Wiremock can start automatically, to do that, just apply `defaults` or `enable` to the run levels for the init.d script:
 
 ```
 $ sudo update-rc.d %WSO2_SERVER_NAME% default
 $ sudo update-rc.d %WSO2_SERVER_NAME% enable
 $ sudo update-rc.d %WSO2_SERVER_NAME% disable
 ```
+
+Where `%WSO2_SERVER_NAME% could be:
+* `wso2am02a`
+* `wso2esb01`
+* `wso2esb02`
+* `wso2dss01a`
+* `wso2greg01a`
 
 Now, if you reboot the VM, the %WSO2_SERVER_NAME% will start too.
 
@@ -226,7 +222,7 @@ Now, if you reboot the VM, the %WSO2_SERVER_NAME% will start too.
 
 1.- `Error: Cannot allocate memory - fork(2)`
 
-This is because there is space in the swap partition or there isn't swap partition.
+This is because there isn't space in the swap partition or there isn't swap partition.
 
 ```
 $ vagrant ssh
@@ -239,7 +235,31 @@ Swap:
 ```
 Follow this instructions to solve it: https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-12-04
 
-2.- `here your issue`
+2.- `Error: Syntax error at '.'; expected '}'`.
+
+This is because Puppet hasn't enable the `future parser`. 
+
+```
+==> wso2srv: Error: Syntax error at '.'; expected '}' at /tmp/vagrant-puppet/modules-7649381c00c1b064b7b0aaf106eac610/wso2esb/manifests/copy_files.pp:12 on node wso2-dev-srv-01.local
+```
+To enable `future parser`in Puppet, just add this line `parser = future` to `/etc/puppet/puppet.conf`
+
+```
+$ sudo nano /etc/puppet/puppet.conf
+
+
+[main]
+...
+parser = future
+
+[master]
+....
+```
+
+After that, restart your VM.
+
+
+3.- `here your issue`
 
 ```
 Drop me an message at chilcano =at= intix.info

@@ -9,6 +9,7 @@ class wso2esb::copy_files (
     path => ['/usr/bin', '/bin', '/usr/sbin']
   }
  
+  ## If the next line doesn't work, try it again before enabling 'future parser' in Puppet of your VM
   $wso2esb_server_name_array.each |$value| {
 
     file { "CREATE_FOLDER_${value}": 

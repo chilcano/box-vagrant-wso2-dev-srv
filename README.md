@@ -146,7 +146,7 @@ $ ./opt/%WSO2_SERVER_NAME%/bin/wso2server.sh -Dsetup
 [2015-11-11 07:21:21,701]  INFO - CarbonUIServiceComponent Mgt Console URL  : https://192.168.11.20:9449/carbon/
 ```
 
-Repeat this process replacing `%WSO2_SERVER_NAME% for:
+Repeat this process replacing `%WSO2_SERVER_NAME%` for:
 * `wso2am02a`
 * `wso2esb01`
 * `wso2esb02`
@@ -162,7 +162,7 @@ To close the running server, just CTRL+C in the shell console where the server i
 $ sudo service %WSO2_SERVER_NAME% start|stop|restart
 ```
 
-Repeat this process replacing `%WSO2_SERVER_NAME% for:
+Repeat this process replacing `%WSO2_SERVER_NAME%` for:
 * `wso2am02a`
 * `wso2esb01`
 * `wso2esb02`
@@ -182,19 +182,19 @@ $ sudo service wiremock start|stop|restart
 All WSO2 servers and Wiremock can start automatically, to do that, just apply `defaults` or `enable` to the run levels for the init.d script:
 
 ```
-$ sudo update-rc.d %WSO2_SERVER_NAME% default
+$ sudo update-rc.d %WSO2_SERVER_NAME% defaults
 $ sudo update-rc.d %WSO2_SERVER_NAME% enable
 $ sudo update-rc.d %WSO2_SERVER_NAME% disable
 ```
 
-Where `%WSO2_SERVER_NAME% could be:
+Where `%WSO2_SERVER_NAME%` could be:
 * `wso2am02a`
 * `wso2esb01`
 * `wso2esb02`
 * `wso2dss01a`
 * `wso2greg01a`
 
-Now, if you reboot the VM, the %WSO2_SERVER_NAME% will start too.
+Now, if you reboot the VM, the `%WSO2_SERVER_NAME%` will start too.
 
 ## Updates
 

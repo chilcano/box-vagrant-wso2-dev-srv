@@ -196,6 +196,11 @@ Where `%WSO2_SERVER_NAME% could be:
 
 Now, if you reboot the VM, the %WSO2_SERVER_NAME% will start too.
 
+## Updates
+
+- 2015.11.13: Added the rTail puppet module to collect, correlate, track and visualize all WSO2 logs using a browser.
+
+<img src="https://github.com/Chilcano/box-vagrant-wso2-dev-srv/blob/master/_downloads/chilcano-box-vagrant-wso2-dev-srv-rtail-logs.png" width="100" alt="rTail to collect and visualize all WSO2 logs from a Browser"/>
 
 ## TODO
 

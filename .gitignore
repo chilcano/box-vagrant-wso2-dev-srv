@@ -20,7 +20,6 @@ Servers/
 target/
 .idea
 .vagrant
-_downloads/
 *.jar
 *.zip
 

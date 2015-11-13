@@ -117,8 +117,15 @@ class wiremock {
 
 }
 
-Package {
-	allow_virtual => false
+class rtail { 
+
+  class { '::rtail::install_and_run': 
+    #server_name_array => ['wso2am02a', 'wso2esb01a', 'wso2esb02a', 'wso2dss01a', 'wso2greg01a'],
+    #rtail_ip_address => '10.0.2.15',
+    #rtail_port_http => '8181',
+    #rtail_port_udp => '9191'
+ }
+
 }
 
 file { '/home/vagrant/.bashrc':
@@ -131,7 +138,7 @@ host {
   'wso2esb01a': ip => '127.0.0.1';
   'wso2esb02a': ip => '127.0.0.1';
   'wso2dss01a': ip => '127.0.0.1';
-  'wso2gr01a': ip => '127.0.0.1';
+  'wso2greg01a': ip => '127.0.0.1';
   'wiremock': ip => '127.0.0.1';
 
   # Other hostnames ('f1' is front tier node 1, 'b1' is back tier node 1)
@@ -146,14 +153,14 @@ host {
   'wso2esb01-vip': ip => '127.0.0.1';
   'wso2esb02-vip': ip => '127.0.0.1';
   'wso2dss01-vip': ip => '127.0.0.1';
-  'wso2gr01-vip': ip => '127.0.0.1';
+  'wso2greg01-vip': ip => '127.0.0.1';
 
   # Other virtual hostname  ('f-vip' is front tier LB node, 'b-vip' is back tier LB node)
   'amb-vip': ip => '127.0.0.1';
   'esbf-vip': ip => '127.0.0.1';
   'esbb-vip': ip => '127.0.0.1';
   'dssf-vip': ip => '127.0.0.1';
-  'grf-vip': ip => '127.0.0.1';  
+  'gregf-vip': ip => '127.0.0.1';  
 }
 
 # '/home/vagrant/_downloads' symlink created to load and share external files
@@ -168,3 +175,4 @@ include wso2am
 include wso2dss
 include wso2greg
 include wiremock
+include rtail

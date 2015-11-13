@@ -1,0 +1,141 @@
+#!/bin/bash
+#
+### BEGIN INIT INFO
+# Provides:          rTailSendLogs
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Service to Start up stopped services at server startup
+# Description:       Deamon Service to Start up stopped services at server startup
+### END INIT INFO
+
+USER="vagrant"
+PRODUCT_CODE="RTAIL"
+RTAIL_HOME="/opt/rtail"
+RTAIL_IP="10.0.2.15"
+RTAIL_UP="9191"
+JAVA_HOME="/usr/java/latest"
+
+export JAVA_HOME=$JAVA_HOME
+
+# Status the service
+do_status() {
+  local WSO2_SRV_HOME=$1
+  local RTAIL_GREP="rtail --id $WSO2_SRV_HOME"
+  PID=`ps axww | grep $RTAIL_UP | grep "$RTAIL_GREP" | grep -v grep | awk '{print $1}'`
+  ps -fp $PID > /dev/null 2>&1
+  PIDVAL=$?
+  if [ $PIDVAL -eq 0 ]
+    then
+       echo "[$WSO2_SRV_HOME] is sending logs to $PRODUCT_CODE."
+    else
+       echo "[$WSO2_SRV_HOME] isn't sending logs to $PRODUCT_CODE."
+  fi
+  return $PIDVAL
+}
+
+# Start the service
+do_start() {
+  local WSO2_SRV_HOME=$1
+  local CMD_START="tail -F /opt/$WSO2_SRV_HOME/repository/logs/wso2carbon.log | rtail --id $WSO2_SRV_HOME --host $RTAIL_IP --port $RTAIL_UP --mute"
+  local LOCK_FILE="$RTAIL_HOME/rtailsendlogs_$WSO2_SRV_HOME.lck"
+  local RTAIL_GREP="rtail --id $WSO2_SRV_HOME"
+  PID=`ps axww | grep $RTAIL_UP | grep "$RTAIL_GREP" | grep -v grep | awk '{print $1}'`
+  ps -fp $PID > /dev/null 2>&1
+  PIDVAL=$?
+  if [ $PIDVAL -eq 0 ]
+    then
+      echo "[$WSO2_SRV_HOME] is already sending logs to $PRODUCT_CODE."
+    else
+      echo -n "[$WSO2_SRV_HOME] is starting sending logs to $PRODUCT_CODE ... "
+      touch $LOCK_FILE
+      su - $USER -c "$CMD_START > /dev/null 2>&1 &"
+      sleep 3
+      PID=`ps axww | grep $RTAIL_UP | grep "$RTAIL_GREP" | grep -v grep | awk '{print $1}'`
+      ps -fp $PID > /dev/null 2>&1
+      PIDVAL=$?
+      if [ $PIDVAL -eq 0 ]
+        then
+          echo "success"
+        else
+          echo "failure"
+      fi
+  fi
+  return $PIDVAL
+}
+
+
+# Stop the service
+do_stop() {
+  local WSO2_SRV_HOME=$1
+  local CMD_STOP="kill -9"
+  local LOCK_FILE="$RTAIL_HOME/rtailsendlogs_$WSO2_SRV_HOME.lck"
+  local RTAIL_GREP="rtail --id $WSO2_SRV_HOME"
+  PID=`ps axww | grep $RTAIL_UP | grep "$RTAIL_GREP" | grep -v grep | awk '{print $1}'`
+  ps -fp $PID > /dev/null 2>&1
+  PIDVAL=$?
+  if [ $PIDVAL -eq 0 ]
+      then
+         echo -n "[$WSO2_SRV_HOME] isn't stopped sending logs to $PRODUCT_CODE ... "
+         su - $USER -c "$CMD_STOP $PID > /dev/null 2>&1 &"
+         rm -f $LOCK_FILE
+         sleep 3
+         PID=`ps axww | grep $RTAIL_UP | grep "$RTAIL_GREP" | grep -v grep | awk '{print $1}'`
+         ps -fp $PID > /dev/null 2>&1
+         PIDVAL=$?
+         if [ $PIDVAL -eq 0 ]
+             then
+                echo "failure"
+                PIDVAL=2
+             else
+                echo "success"
+                PIDVAL=0
+         fi
+      else
+         echo "[$WSO2_SRV_HOME] is already stopped sending logs to $PRODUCT_CODE."
+         PIDVAL=0
+  fi
+  return $PIDVAL
+}
+
+### main logic ###
+case "$1" in
+start)
+    do_start "wso2am02a"
+    do_start "wso2esb01a"
+    do_start "wso2esb02a"
+    do_start "wso2dss01a"
+    do_start "wso2greg01a"
+    ;;
+stop)
+    do_stop "wso2am02a"
+    do_stop "wso2esb01a"
+    do_stop "wso2esb02a"
+    do_stop "wso2dss01a"
+    do_stop "wso2greg01a"
+    ;;
+status)
+    do_status "wso2am02a"
+    do_status "wso2esb01a"
+    do_status "wso2esb02a"
+    do_status "wso2dss01a"
+    do_status "wso2greg01a"
+    ;;
+restart)
+    do_stop "wso2am02a"
+    do_stop "wso2esb01a"
+    do_stop "wso2esb02a"
+    do_stop "wso2dss01a"
+    do_stop "wso2greg01a"
+    do_start "wso2am02a"
+    do_start "wso2esb01a"
+    do_start "wso2esb02a"
+    do_start "wso2dss01a"
+    do_start "wso2greg01a"
+    ;;
+*)
+   echo $"Usage: $0 {start|stop|restart|reload|status}"
+   exit 1
+esac
+exit $?

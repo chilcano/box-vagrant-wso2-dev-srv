@@ -75,7 +75,6 @@ start() {
           PIDVAL=2
       fi
  fi
- echo
  return $PIDVAL
 }
 
@@ -136,7 +135,6 @@ stop() {
         echo "$PRODUCT_CODE server is not running."
         PIDVAL=0
  fi
- echo
  return $PIDVAL
 }
 

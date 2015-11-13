@@ -40,6 +40,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # WIREMOCK
     wso2srv.vm.network "forwarded_port", guest: 7788, host: 7788
 
+    # RTAIL
+    wso2srv.vm.network "forwarded_port", guest: 8181, host: 8181
+
     wso2srv.vm.network :private_network, ip: "192.168.11.20"
     wso2srv.vm.hostname = "wso2-dev-srv-01.local"
 

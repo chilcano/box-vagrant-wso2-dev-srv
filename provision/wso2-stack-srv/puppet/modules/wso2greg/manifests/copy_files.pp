@@ -19,7 +19,6 @@ class wso2greg::copy_files (
       mode   => 0644
     } ->
 
-
     exec { "COPY_UNZIPPED_FILES_IN_${value}":
       command => "cp -R /tmp/${wso2_bundle_name}/* /opt/${value}/.",
       cwd     => '/opt',

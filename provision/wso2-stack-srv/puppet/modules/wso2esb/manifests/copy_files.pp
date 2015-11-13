@@ -17,8 +17,7 @@ class wso2esb::copy_files (
       ensure => directory,
       owner  => "${wso2_user_name}",
       group  => "${wso2_group_name}",
-      mode   => 0644,
-      #notify  => File['${wso2esb_server_name}']
+      mode   => 0644
     } ->
 
     exec { "COPY_UNZIPPED_FILES_IN_${value}":

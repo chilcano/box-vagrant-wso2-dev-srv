@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Body>
+      <soapenv:Fault xmlns:axis2ns11="http://schemas.xmlsoap.org/soap/envelope/">
+         <faultcode>axis2ns11:Client</faultcode>
+         <faultstring>Invalid value "THIS-IS-NOT-INTEGER-VALUE" for element in</faultstring>
+         <detail/>
+      </soapenv:Fault>
+   </soapenv:Body>
+</soapenv:Envelope>

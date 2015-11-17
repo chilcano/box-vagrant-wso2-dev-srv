@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="388c59c9-88d7-4dde-92e1-20574155ae4b" activeEnvironment="Default" name="wso2esb-echomock" resourceRoot="" soapui-version="5.1.3" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="1e764662-472f-4c84-95f9-6ee93e3d7a11" wsaVersion="NONE" name="esb-back (echo soap)" type="wsdl" bindingName="{http://echo.services.core.carbon.wso2.org}echoSoap11Binding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8282/services/echo?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8282/services/echo?wsdl"><con:part><con:url>http://localhost:8282/services/echo?wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://echo.services.core.carbon.wso2.org" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://echo.services.core.carbon.wso2.org" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax21="http://echo.services.core.carbon.wso2.org/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+  <wsdl:documentation>echo</wsdl:documentation>
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="unqualified" targetNamespace="http://echo.services.core.carbon.wso2.org/xsd">
+      <xs:complexType name="SimpleBean">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="a_r" nillable="true" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="b_r" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="c" type="xs:int"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="unqualified" targetNamespace="http://echo.services.core.carbon.wso2.org" xmlns:ax22="http://echo.services.core.carbon.wso2.org/xsd">
+      <xs:import namespace="http://echo.services.core.carbon.wso2.org/xsd"/>
+      <xs:element name="echoString">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="in" nillable="true" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoStringResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoInt">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="in" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoIntResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="throwAxisFault">
+        <xs:complexType>
+          <xs:sequence/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="throwAxisFaultResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoStringArrays">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="a" nillable="true" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="b" nillable="true" type="xs:string"/>
+            <xs:element minOccurs="0" name="c" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoStringArraysResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="ax21:SimpleBean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoOMElement">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="omEle" nillable="true" type="xs:anyType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoOMElementResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:anyType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="echoStringArraysRequest">
+    <wsdl:part name="parameters" element="ns:echoStringArrays"/>
+  </wsdl:message>
+  <wsdl:message name="echoStringArraysResponse">
+    <wsdl:part name="parameters" element="ns:echoStringArraysResponse"/>
+  </wsdl:message>
+  <wsdl:message name="echoOMElementRequest">
+    <wsdl:part name="parameters" element="ns:echoOMElement"/>
+  </wsdl:message>
+  <wsdl:message name="echoOMElementResponse">
+    <wsdl:part name="parameters" element="ns:echoOMElementResponse"/>
+  </wsdl:message>
+  <wsdl:message name="echoIntRequest">
+    <wsdl:part name="parameters" element="ns:echoInt"/>
+  </wsdl:message>
+  <wsdl:message name="echoIntResponse">
+    <wsdl:part name="parameters" element="ns:echoIntResponse"/>
+  </wsdl:message>
+  <wsdl:message name="throwAxisFaultRequest">
+    <wsdl:part name="parameters" element="ns:throwAxisFault"/>
+  </wsdl:message>
+  <wsdl:message name="throwAxisFaultResponse">
+    <wsdl:part name="parameters" element="ns:throwAxisFaultResponse"/>
+  </wsdl:message>
+  <wsdl:message name="echoStringRequest">
+    <wsdl:part name="parameters" element="ns:echoString"/>
+  </wsdl:message>
+  <wsdl:message name="echoStringResponse">
+    <wsdl:part name="parameters" element="ns:echoStringResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="echoPortType">
+    <wsdl:operation name="echoStringArrays">
+      <wsdl:input message="ns:echoStringArraysRequest" wsaw:Action="urn:echoStringArrays"/>
+      <wsdl:output message="ns:echoStringArraysResponse" wsaw:Action="urn:echoStringArraysResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="echoOMElement">
+      <wsdl:input message="ns:echoOMElementRequest" wsaw:Action="urn:echoOMElement"/>
+      <wsdl:output message="ns:echoOMElementResponse" wsaw:Action="urn:echoOMElementResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="echoInt">
+      <wsdl:input message="ns:echoIntRequest" wsaw:Action="urn:echoInt"/>
+      <wsdl:output message="ns:echoIntResponse" wsaw:Action="urn:echoIntResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="throwAxisFault">
+      <wsdl:input message="ns:throwAxisFaultRequest" wsaw:Action="urn:throwAxisFault"/>
+      <wsdl:output message="ns:throwAxisFaultResponse" wsaw:Action="urn:throwAxisFaultResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="echoString">
+      <wsdl:input message="ns:echoStringRequest" wsaw:Action="urn:echoString"/>
+      <wsdl:output message="ns:echoStringResponse" wsaw:Action="urn:echoStringResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="echoSoap11Binding" type="ns:echoPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <wsdl:operation name="echoStringArrays">
+      <soap:operation soapAction="urn:echoStringArrays" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoOMElement">
+      <soap:operation soapAction="urn:echoOMElement" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoInt">
+      <soap:operation soapAction="urn:echoInt" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="throwAxisFault">
+      <soap:operation soapAction="urn:throwAxisFault" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoString">
+      <soap:operation soapAction="urn:echoString" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="echoSoap12Binding" type="ns:echoPortType">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <wsdl:operation name="echoStringArrays">
+      <soap12:operation soapAction="urn:echoStringArrays" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoOMElement">
+      <soap12:operation soapAction="urn:echoOMElement" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoInt">
+      <soap12:operation soapAction="urn:echoInt" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="throwAxisFault">
+      <soap12:operation soapAction="urn:throwAxisFault" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoString">
+      <soap12:operation soapAction="urn:echoString" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="echoHttpBinding" type="ns:echoPortType">
+    <http:binding verb="POST"/>
+    <wsdl:operation name="echoStringArrays">
+      <http:operation location="echoStringArrays"/>
+      <wsdl:input>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoOMElement">
+      <http:operation location="echoOMElement"/>
+      <wsdl:input>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoInt">
+      <http:operation location="echoInt"/>
+      <wsdl:input>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="throwAxisFault">
+      <http:operation location="throwAxisFault"/>
+      <wsdl:input>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoString">
+      <http:operation location="echoString"/>
+      <wsdl:input>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="echo">
+    <wsdl:port name="echoHttpsSoap11Endpoint" binding="ns:echoSoap11Binding">
+      <soap:address location="https://wso2-dev-srv-01:8245/services/echo.echoHttpsSoap11Endpoint"/>
+    </wsdl:port>
+    <wsdl:port name="echoHttpSoap11Endpoint" binding="ns:echoSoap11Binding">
+      <soap:address location="http://wso2-dev-srv-01:8282/services/echo.echoHttpSoap11Endpoint"/>
+    </wsdl:port>
+    <wsdl:port name="echoHttpSoap12Endpoint" binding="ns:echoSoap12Binding">
+      <soap12:address location="http://wso2-dev-srv-01:8282/services/echo.echoHttpSoap12Endpoint"/>
+    </wsdl:port>
+    <wsdl:port name="echoHttpsSoap12Endpoint" binding="ns:echoSoap12Binding">
+      <soap12:address location="https://wso2-dev-srv-01:8245/services/echo.echoHttpsSoap12Endpoint"/>
+    </wsdl:port>
+    <wsdl:port name="echoHttpEndpoint" binding="ns:echoHttpBinding">
+      <http:address location="http://wso2-dev-srv-01:8282/services/echo.echoHttpEndpoint"/>
+    </wsdl:port>
+    <wsdl:port name="echoHttpsEndpoint" binding="ns:echoHttpBinding">
+      <http:address location="https://wso2-dev-srv-01:8245/services/echo.echoHttpsEndpoint"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://${#Project#${#Project#env2test}_esb_back}/services/echo</con:endpoint></con:endpoints><con:operation id="a0e4cd3d-235c-4930-97b8-9497f6dba032" isOneWay="false" action="urn:echoInt" name="echoInt" bindingOperationName="echoInt" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="abbd2ea9-ef59-4631-9981-07cf886d3e4e" name="200-OK"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${#Project#${#Project#env2test}_esb_auth_header}" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://${#Project#${#Project#env2test}_esb_back}/services/echo</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <echo:echoInt>
+         <in>1234</in>
+      </echo:echoInt>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>aaa</con:username><con:password>bbbb</con:password><con:selectedAuthProfile>No Authorization</con:selectedAuthProfile><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:echoInt"/><con:wsrmConfig version="1.2"/></con:call><con:call id="49e6a647-a209-4f9b-99d1-139a1b651f91" name="500-NotIntegerValue"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${#Project#${#Project#env2test}_esb_auth_header}" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://${#Project#${#Project#env2test}_esb_back}/services/echo</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <echo:echoInt>
+         <in>Hola</in>
+      </echo:echoInt>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:echoInt"/><con:wsrmConfig version="1.2"/></con:call><con:call id="82f1229d-086e-4151-a259-808beb826f1e" name="500-IntegerValueNotPermitted"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${#Project#${#Project#env2test}_esb_auth_header}" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://${#Project#${#Project#env2test}_esb_back}/services/echo</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <echo:echoInt>
+         <in>12345678901234567890</in>
+      </echo:echoInt>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:echoInt"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="54ec0682-a504-4703-b06a-e1df30479662" isOneWay="false" action="urn:echoOMElement" name="echoOMElement" bindingOperationName="echoOMElement" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="a7b64e38-bd26-495c-b81d-46031cb7d75b" name="200-OK"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://${#Project#${#Project#env2test}_esb_back}/services/echo</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <echo:echoOMElement>
+         <omEle><SALUDO>Hola</SALUDO><OBJETO>mundo!!</OBJETO></omEle>
+      </echo:echoOMElement>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:echoOMElement"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e9256f4d-92e8-40be-ab0d-3f36c2e13c20" name="200-StringValueAsOM"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://${#Project#${#Project#env2test}_esb_back}/services/echo</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <echo:echoOMElement>
+         <omEle>Hola mundo!!</omEle>
+      </echo:echoOMElement>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:echoOMElement"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="777ba40f-6082-4cd8-bb07-b263ad0c430b" isOneWay="false" action="urn:echoString" name="echoString" bindingOperationName="echoString" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="71865fe2-68da-473a-beb6-51f2afee39a3" name="200-OK"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://${#Project#${#Project#env2test}_esb_back}/services/echo</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <echo:echoString>
+         <in>Hola mundo!</in>
+      </echo:echoString>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:echoString"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="80a6775f-e9ee-4b16-a34f-a0324c3d05bc" isOneWay="false" action="urn:echoStringArrays" name="echoStringArrays" bindingOperationName="echoStringArrays" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="f6cc7f92-8926-4a37-929d-66c9f26ac853" name="200-OK"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://${#Project#${#Project#env2test}_esb_back}/services/echo</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <echo:echoStringArrays>
+         <a>Hola</a>
+         <b>mundo</b>
+         <c>6</c>
+      </echo:echoStringArrays>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:echoStringArrays"/><con:wsrmConfig version="1.2"/></con:call><con:call id="da5186ea-c7ad-49f7-a222-a57fc6479042" name="500-InvalidValue"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://${#Project#${#Project#env2test}_esb_back}/services/echo</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <echo:echoStringArrays>
+         <a>Hola</a>
+         <b>mundo</b>
+         <c>invalid-value</c>
+      </echo:echoStringArrays>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:echoStringArrays"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="0e365c0f-3e63-4f02-a935-992afa6210bb" isOneWay="false" action="urn:throwAxisFault" name="throwAxisFault" bindingOperationName="throwAxisFault" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="f13ad3c0-e567-41a9-8634-8b89a7202e16" name="500"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://${#Project#${#Project#env2test}_esb_back}/services/echo</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <echo:throwAxisFault/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:throwAxisFault"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="1055eb69-7d33-4b17-89f9-a51f09ca6b64" wsaVersion="NONE" name="wiremock (echo soap)" type="wsdl" bindingName="{http://echo.services.core.carbon.wso2.org}echoSoap11Binding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8282/services/echo?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8282/services/echo?wsdl"><con:part><con:url>http://localhost:8282/services/echo?wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://echo.services.core.carbon.wso2.org" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://echo.services.core.carbon.wso2.org" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax21="http://echo.services.core.carbon.wso2.org/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+  <wsdl:documentation>echo</wsdl:documentation>
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="unqualified" targetNamespace="http://echo.services.core.carbon.wso2.org/xsd">
+      <xs:complexType name="SimpleBean">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="a_r" nillable="true" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="b_r" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="c" type="xs:int"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="unqualified" targetNamespace="http://echo.services.core.carbon.wso2.org" xmlns:ax22="http://echo.services.core.carbon.wso2.org/xsd">
+      <xs:import namespace="http://echo.services.core.carbon.wso2.org/xsd"/>
+      <xs:element name="echoString">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="in" nillable="true" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoStringResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoInt">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="in" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoIntResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="throwAxisFault">
+        <xs:complexType>
+          <xs:sequence/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="throwAxisFaultResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoStringArrays">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="a" nillable="true" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="b" nillable="true" type="xs:string"/>
+            <xs:element minOccurs="0" name="c" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoStringArraysResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="ax21:SimpleBean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoOMElement">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="omEle" nillable="true" type="xs:anyType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="echoOMElementResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:anyType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="echoStringArraysRequest">
+    <wsdl:part name="parameters" element="ns:echoStringArrays"/>
+  </wsdl:message>
+  <wsdl:message name="echoStringArraysResponse">
+    <wsdl:part name="parameters" element="ns:echoStringArraysResponse"/>
+  </wsdl:message>
+  <wsdl:message name="echoOMElementRequest">
+    <wsdl:part name="parameters" element="ns:echoOMElement"/>
+  </wsdl:message>
+  <wsdl:message name="echoOMElementResponse">
+    <wsdl:part name="parameters" element="ns:echoOMElementResponse"/>
+  </wsdl:message>
+  <wsdl:message name="echoIntRequest">
+    <wsdl:part name="parameters" element="ns:echoInt"/>
+  </wsdl:message>
+  <wsdl:message name="echoIntResponse">
+    <wsdl:part name="parameters" element="ns:echoIntResponse"/>
+  </wsdl:message>
+  <wsdl:message name="throwAxisFaultRequest">
+    <wsdl:part name="parameters" element="ns:throwAxisFault"/>
+  </wsdl:message>
+  <wsdl:message name="throwAxisFaultResponse">
+    <wsdl:part name="parameters" element="ns:throwAxisFaultResponse"/>
+  </wsdl:message>
+  <wsdl:message name="echoStringRequest">
+    <wsdl:part name="parameters" element="ns:echoString"/>
+  </wsdl:message>
+  <wsdl:message name="echoStringResponse">
+    <wsdl:part name="parameters" element="ns:echoStringResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="echoPortType">
+    <wsdl:operation name="echoStringArrays">
+      <wsdl:input message="ns:echoStringArraysRequest" wsaw:Action="urn:echoStringArrays"/>
+      <wsdl:output message="ns:echoStringArraysResponse" wsaw:Action="urn:echoStringArraysResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="echoOMElement">
+      <wsdl:input message="ns:echoOMElementRequest" wsaw:Action="urn:echoOMElement"/>
+      <wsdl:output message="ns:echoOMElementResponse" wsaw:Action="urn:echoOMElementResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="echoInt">
+      <wsdl:input message="ns:echoIntRequest" wsaw:Action="urn:echoInt"/>
+      <wsdl:output message="ns:echoIntResponse" wsaw:Action="urn:echoIntResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="throwAxisFault">
+      <wsdl:input message="ns:throwAxisFaultRequest" wsaw:Action="urn:throwAxisFault"/>
+      <wsdl:output message="ns:throwAxisFaultResponse" wsaw:Action="urn:throwAxisFaultResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="echoString">
+      <wsdl:input message="ns:echoStringRequest" wsaw:Action="urn:echoString"/>
+      <wsdl:output message="ns:echoStringResponse" wsaw:Action="urn:echoStringResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="echoSoap11Binding" type="ns:echoPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <wsdl:operation name="echoStringArrays">
+      <soap:operation soapAction="urn:echoStringArrays" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoOMElement">
+      <soap:operation soapAction="urn:echoOMElement" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoInt">
+      <soap:operation soapAction="urn:echoInt" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="throwAxisFault">
+      <soap:operation soapAction="urn:throwAxisFault" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoString">
+      <soap:operation soapAction="urn:echoString" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="echoSoap12Binding" type="ns:echoPortType">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <wsdl:operation name="echoStringArrays">
+      <soap12:operation soapAction="urn:echoStringArrays" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoOMElement">
+      <soap12:operation soapAction="urn:echoOMElement" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoInt">
+      <soap12:operation soapAction="urn:echoInt" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="throwAxisFault">
+      <soap12:operation soapAction="urn:throwAxisFault" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoString">
+      <soap12:operation soapAction="urn:echoString" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="echoHttpBinding" type="ns:echoPortType">
+    <http:binding verb="POST"/>
+    <wsdl:operation name="echoStringArrays">
+      <http:operation location="echoStringArrays"/>
+      <wsdl:input>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoOMElement">
+      <http:operation location="echoOMElement"/>
+      <wsdl:input>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoInt">
+      <http:operation location="echoInt"/>
+      <wsdl:input>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="throwAxisFault">
+      <http:operation location="throwAxisFault"/>
+      <wsdl:input>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoString">
+      <http:operation location="echoString"/>
+      <wsdl:input>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml" part="parameters"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="echo">
+    <wsdl:port name="echoHttpsSoap11Endpoint" binding="ns:echoSoap11Binding">
+      <soap:address location="https://wso2-dev-srv-01:8245/services/echo.echoHttpsSoap11Endpoint"/>
+    </wsdl:port>
+    <wsdl:port name="echoHttpSoap11Endpoint" binding="ns:echoSoap11Binding">
+      <soap:address location="http://wso2-dev-srv-01:8282/services/echo.echoHttpSoap11Endpoint"/>
+    </wsdl:port>
+    <wsdl:port name="echoHttpSoap12Endpoint" binding="ns:echoSoap12Binding">
+      <soap12:address location="http://wso2-dev-srv-01:8282/services/echo.echoHttpSoap12Endpoint"/>
+    </wsdl:port>
+    <wsdl:port name="echoHttpsSoap12Endpoint" binding="ns:echoSoap12Binding">
+      <soap12:address location="https://wso2-dev-srv-01:8245/services/echo.echoHttpsSoap12Endpoint"/>
+    </wsdl:port>
+    <wsdl:port name="echoHttpEndpoint" binding="ns:echoHttpBinding">
+      <http:address location="http://wso2-dev-srv-01:8282/services/echo.echoHttpEndpoint"/>
+    </wsdl:port>
+    <wsdl:port name="echoHttpsEndpoint" binding="ns:echoHttpBinding">
+      <http:address location="https://wso2-dev-srv-01:8245/services/echo.echoHttpsEndpoint"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://${#Project#${#Project#env2test}_wiremock}/mockservices/echo</con:endpoint></con:endpoints><con:operation id="f219db78-5585-4ace-8591-ffe54bf379b3" isOneWay="false" action="urn:echoInt" name="echoInt" bindingOperationName="echoInt" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="43fed202-ad62-4567-997b-8749a2087e45" name="200 (in=200101)"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${#Project#${#Project#env2test}_esb_auth_header}" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://${#Project#${#Project#env2test}_wiremock}/mockservices/echo</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <echo:echoInt>
+         <in>200101</in>
+      </echo:echoInt>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:echoInt"/><con:wsrmConfig version="1.2"/></con:call><con:call id="8ca7bb26-a4c0-4a4e-9726-32924525edb3" name="500 (IntegerValueNorPermitted)"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${#Project#${#Project#env2test}_esb_auth_header}" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://${#Project#${#Project#env2test}_wiremock}/mockservices/echo</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <echo:echoInt>
+         <in>12345678901234567890</in>
+      </echo:echoInt>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:echoInt"/><con:wsrmConfig version="1.2"/></con:call><con:call id="fa1774d6-1ac3-4ae5-a8fc-f03743e8d980" name="500 (NotIntegerValue)"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="${#Project#${#Project#env2test}_esb_auth_header}" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://${#Project#${#Project#env2test}_wiremock}/mockservices/echo</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:echo="http://echo.services.core.carbon.wso2.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <echo:echoInt>
+         <in>THIS-IS-NOT-INTEGER-VALUE</in>
+      </echo:echoInt>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:echoInt"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="aa4c69a7-b9b4-43fc-bfa6-7ad6258b4c6e" isOneWay="false" action="urn:echoOMElement" name="echoOMElement" bindingOperationName="echoOMElement" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/></con:operation><con:operation id="47e7a45e-e83d-499a-a961-ba79b1d8e382" isOneWay="false" action="urn:echoString" name="echoString" bindingOperationName="echoString" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/></con:operation><con:operation id="19356149-3326-40c9-be86-de3cdb4b467f" isOneWay="false" action="urn:echoStringArrays" name="echoStringArrays" bindingOperationName="echoStringArrays" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/></con:operation><con:operation id="bd8918cb-3da4-4bde-8158-5ae90b76241f" isOneWay="false" action="urn:throwAxisFault" name="throwAxisFault" bindingOperationName="throwAxisFault" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/></con:operation></con:interface><con:properties><con:property><con:name>env2test</con:name><con:value>dev</con:value></con:property><con:property><con:name>dev_esb_front</con:name><con:value>localhost:8286</con:value></con:property><con:property><con:name>dev_esb_back</con:name><con:value>localhost:8282</con:value></con:property><con:property><con:name>dev_api_front</con:name><con:value>localhost:8280</con:value></con:property><con:property><con:name>dev_wiremock</con:name><con:value>localhost:7788</con:value></con:property><con:property><con:name>dev_esb_auth_header</con:name><con:value>Basic base64(usr_sample:pwd_sample)</con:value></con:property></con:properties><con:wssContainer/><con:oAuth2ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

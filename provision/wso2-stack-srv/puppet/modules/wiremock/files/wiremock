@@ -18,6 +18,7 @@ LOCK_FILE="$MOCK_HOME/wiremock.lck"
 CMD_START="cd $MOCK_HOME ; java -jar wiremock-1.57-standalone.jar --port $MOCK_SERVER_PORT --verbose"
 CMD_STOP="kill -9"
 JAVA_HOME="/usr/java/latest"
+MOCK_LOG_FILE="wiremock.log"
 
 export JAVA_HOME=$JAVA_HOME
 
@@ -46,7 +47,7 @@ start() {
       else
         echo -n "Starting $PRODUCT_CODE server ... "
         touch $LOCK_FILE
-        su - $USER -c "$CMD_START > /dev/null 2>&1 &"
+        su - $USER -c "$CMD_START > $MOCK_LOG_FILE 2>&1 &"
         sleep 5
         PID=`ps axww | grep 7788 | grep wiremock | grep -v grep | awk '{print $1}'`
         ps -fp $PID > /dev/null 2>&1

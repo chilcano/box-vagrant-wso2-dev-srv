@@ -1,0 +1,16 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/mockservices/echo",
+        "bodyPatterns": [
+            { "contains": "<in>THIS-IS-NOT-INTEGER-VALUE</in>" }
+        ]        
+    },
+    "response": {
+        "status": 500,
+        "headers": {
+                    "Content-Type": "text/xml"
+            },
+        "bodyFileName": "echomock-echoInt-500-NotIntegerValue-response.xml"
+    }
+}

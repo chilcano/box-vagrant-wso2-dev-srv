@@ -21,36 +21,42 @@ export JAVA_HOME=$JAVA_HOME
 
 # Status the service
 do_status() {
-  local WSO2_SRV_HOME=$1
-  local RTAIL_GREP="rtail --id $WSO2_SRV_HOME"
+  local SRV_NAME=$1
+  local RTAIL_GREP="rtail --id $SRV_NAME"
   PID=`ps axww | grep $RTAIL_UP | grep "$RTAIL_GREP" | grep -v grep | awk '{print $1}'`
   ps -fp $PID > /dev/null 2>&1
   PIDVAL=$?
   if [ $PIDVAL -eq 0 ]
     then
-       echo "[$WSO2_SRV_HOME] is sending logs to $PRODUCT_CODE."
+       echo "[$SRV_NAME] is sending logs to $PRODUCT_CODE."
     else
-       echo "[$WSO2_SRV_HOME] isn't sending logs to $PRODUCT_CODE."
+       echo "[$SRV_NAME] isn't sending logs to $PRODUCT_CODE."
   fi
   return $PIDVAL
 }
 
 # Start the service
 do_start() {
-  local WSO2_SRV_HOME=$1
-  local CMD_START="tail -F /opt/$WSO2_SRV_HOME/repository/logs/wso2carbon.log | rtail --id $WSO2_SRV_HOME --host $RTAIL_IP --port $RTAIL_UP --mute"
-  local LOCK_FILE="$RTAIL_HOME/rtailsendlogs_$WSO2_SRV_HOME.lck"
-  local RTAIL_GREP="rtail --id $WSO2_SRV_HOME"
+  local SRV_NAME=$1
+  local LOCK_FILE="$RTAIL_HOME/rtailsendlogs_$SRV_NAME.lck"
+  local RTAIL_GREP="rtail --id $SRV_NAME"
   PID=`ps axww | grep $RTAIL_UP | grep "$RTAIL_GREP" | grep -v grep | awk '{print $1}'`
   ps -fp $PID > /dev/null 2>&1
   PIDVAL=$?
   if [ $PIDVAL -eq 0 ]
     then
-      echo "[$WSO2_SRV_HOME] is already sending logs to $PRODUCT_CODE."
+      echo "[$SRV_NAME] is already sending logs to $PRODUCT_CODE."
     else
-      echo -n "[$WSO2_SRV_HOME] is starting sending logs to $PRODUCT_CODE ... "
+      echo -n "[$SRV_NAME] is starting sending logs to $PRODUCT_CODE ... "
       touch $LOCK_FILE
-      su - $USER -c "$CMD_START > /dev/null 2>&1 &"
+      if [ $SRV_NAME = "wiremock" ]
+        then
+          local CMD_START="tail -999f /opt/$SRV_NAME/$SRV_NAME.log | rtail --id $SRV_NAME --host $RTAIL_IP --port $RTAIL_UP --mute"
+          su - $USER -c "$CMD_START > $SRV_NAME.log 2>&1 &"
+        else
+          local CMD_START="tail -F /opt/$SRV_NAME/repository/logs/wso2carbon.log | rtail --id $SRV_NAME --host $RTAIL_IP --port $RTAIL_UP --mute"
+          su - $USER -c "$CMD_START > /dev/null 2>&1 &"
+      fi
       sleep 3
       PID=`ps axww | grep $RTAIL_UP | grep "$RTAIL_GREP" | grep -v grep | awk '{print $1}'`
       ps -fp $PID > /dev/null 2>&1
@@ -68,32 +74,32 @@ do_start() {
 
 # Stop the service
 do_stop() {
-  local WSO2_SRV_HOME=$1
+  local SRV_NAME=$1
   local CMD_STOP="kill -9"
-  local LOCK_FILE="$RTAIL_HOME/rtailsendlogs_$WSO2_SRV_HOME.lck"
-  local RTAIL_GREP="rtail --id $WSO2_SRV_HOME"
+  local LOCK_FILE="$RTAIL_HOME/rtailsendlogs_$SRV_NAME.lck"
+  local RTAIL_GREP="rtail --id $SRV_NAME"
   PID=`ps axww | grep $RTAIL_UP | grep "$RTAIL_GREP" | grep -v grep | awk '{print $1}'`
   ps -fp $PID > /dev/null 2>&1
   PIDVAL=$?
   if [ $PIDVAL -eq 0 ]
       then
-         echo -n "[$WSO2_SRV_HOME] isn't stopped sending logs to $PRODUCT_CODE ... "
-         su - $USER -c "$CMD_STOP $PID > /dev/null 2>&1 &"
-         rm -f $LOCK_FILE
-         sleep 3
-         PID=`ps axww | grep $RTAIL_UP | grep "$RTAIL_GREP" | grep -v grep | awk '{print $1}'`
-         ps -fp $PID > /dev/null 2>&1
-         PIDVAL=$?
-         if [ $PIDVAL -eq 0 ]
-             then
-                echo "failure"
-                PIDVAL=2
-             else
-                echo "success"
-                PIDVAL=0
-         fi
+        echo -n "[$SRV_NAME] isn't stopped sending logs to $PRODUCT_CODE ... "
+        su - $USER -c "$CMD_STOP $PID > /dev/null 2>&1 &"
+        rm -f $LOCK_FILE
+        sleep 3
+        PID=`ps axww | grep $RTAIL_UP | grep "$RTAIL_GREP" | grep -v grep | awk '{print $1}'`
+        ps -fp $PID > /dev/null 2>&1
+        PIDVAL=$?
+        if [ $PIDVAL -eq 0 ]
+          then
+            echo "failure"
+            PIDVAL=2
+          else
+            echo "success"
+            PIDVAL=0
+        fi
       else
-         echo "[$WSO2_SRV_HOME] is already stopped sending logs to $PRODUCT_CODE."
+         echo "[$SRV_NAME] is already stopped sending logs to $PRODUCT_CODE."
          PIDVAL=0
   fi
   return $PIDVAL
@@ -107,6 +113,7 @@ start)
     do_start "wso2esb02a"
     do_start "wso2dss01a"
     do_start "wso2greg01a"
+    do_start "wiremock"
     ;;
 stop)
     do_stop "wso2am02a"
@@ -114,6 +121,7 @@ stop)
     do_stop "wso2esb02a"
     do_stop "wso2dss01a"
     do_stop "wso2greg01a"
+    do_stop "wiremock"
     ;;
 status)
     do_status "wso2am02a"
@@ -121,6 +129,7 @@ status)
     do_status "wso2esb02a"
     do_status "wso2dss01a"
     do_status "wso2greg01a"
+    do_status "wiremock"
     ;;
 restart)
     do_stop "wso2am02a"
@@ -128,11 +137,13 @@ restart)
     do_stop "wso2esb02a"
     do_stop "wso2dss01a"
     do_stop "wso2greg01a"
+    do_stop "wiremock"
     do_start "wso2am02a"
     do_start "wso2esb01a"
     do_start "wso2esb02a"
     do_start "wso2dss01a"
     do_start "wso2greg01a"
+    do_start "wiremock"
     ;;
 *)
    echo $"Usage: $0 {start|stop|restart|reload|status}"

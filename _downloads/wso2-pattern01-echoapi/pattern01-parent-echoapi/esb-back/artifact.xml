@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<artifacts>
+    <artifact name="pattern01-echo-back-ep" groupId="info.intix.wso2.msbook.pattern01.esb.back.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/pattern01-echo-back-ep.xml</file>
+    </artifact>
+    <artifact name="pattern01-echo-back-proxy" groupId="info.intix.wso2.msbook.pattern01.esb.back.proxy-service" version="1.0.0" type="synapse/proxy-service" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/proxy-services/pattern01-echo-back-proxy.xml</file>
+    </artifact>
+    <artifact name="pattern01-logger-back-tpl" groupId="info.intix.wso2.msbook.pattern01.esb.back.template" version="1.0.0" type="synapse/sequenceTemplate" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/templates/pattern01-logger-back-tpl.xml</file>
+    </artifact>
+</artifacts>

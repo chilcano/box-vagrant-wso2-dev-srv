@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoint name="pattern01-echo-front-endpoint" xmlns="http://ws.apache.org/ns/synapse">
+  <address trace="disable" uri="http://wso2esb02-vip:8282/services/pattern01-echo-back-proxy?wsdl" format="soap11"/>
+</endpoint>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api xmlns="http://ws.apache.org/ns/synapse" context="/msbook/pattern01/echoapi/front" name="pattern01-echo-front-api">
+  <resource uri-template="/int/{valor}" methods="GET" protocol="http" 
+  	faultSequence="pattern01-echoint-front-seq-fault" 
+    inSequence="pattern01-echoint-front-seq-in" 
+    outSequence="pattern01-echoint-front-seq-out" />
+  <resource uri-template="/string/{valor}" methods="GET" protocol="http"
+  	faultSequence="pattern01-echostring-front-seq-fault"
+    inSequence="pattern01-echostring-front-seq-in" 
+    outSequence="pattern01-echostring-front-seq-out" />
+</api>

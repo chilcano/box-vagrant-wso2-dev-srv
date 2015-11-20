@@ -1,0 +1,21 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/mockservices/echo",
+        "headers": {
+            "Content-Type": {
+                "equalTo": "text/xml;charset=UTF-8"
+            }
+        },
+        "bodyPatterns": [
+            { "contains": "<in>&&&</in>" }
+        ]
+    },
+    "response": {
+        "status": 500,
+        "headers": {
+                    "Content-Type": "text/xml"
+            },
+        "bodyFileName": "echomock-echoString-500-InvalidString-response.xml"
+    }
+}

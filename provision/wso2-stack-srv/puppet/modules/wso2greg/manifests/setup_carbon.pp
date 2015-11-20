@@ -16,12 +16,6 @@ class wso2greg::setup_carbon (
       source => "/vagrant/provision/wso2-stack-srv/puppet/modules/wso2greg/files/${value}/${value}"
     } ~>
 
-    #service { "ENABLE_SERVICE_${value}":
-    #  name   => "${value}",
-    #  ensure => true,
-    #  enable => false
-    #} ->
-
     file { "COPY_WSO2_LIB_IN_${value}": 
       path => "/opt/${value}/repository/components/lib/postgresql-9.4-1201.jdbc41.jar",
       source => "/vagrant/_downloads/postgresql-9.4-1201.jdbc41.jar"

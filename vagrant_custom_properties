@@ -1,0 +1,11 @@
+# Base box name
+$base_box = "ubuntu/trusty32"
+
+# Use the Ubunut 32bit or 64bit
+$base_box_url = "http://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-i386-vagrant-disk1.box"
+
+# VM IP address
+$ip = "192.168.11.20"
+
+# Name of the host and name of VM
+$host = "wso2-dev-srv-01"

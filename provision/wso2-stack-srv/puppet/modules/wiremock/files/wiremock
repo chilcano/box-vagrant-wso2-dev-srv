@@ -10,56 +10,55 @@
 # Description:       Deamon Service to Start up stopped services at server startup
 ### END INIT INFO
 
+PRODUCT_CODE="wiremock"
 USER="vagrant"
-PRODUCT_CODE="WIREMOCK"
-MOCK_HOME="/opt/wiremock"
 MOCK_SERVER_PORT="7788"
-LOCK_FILE="$MOCK_HOME/wiremock.lck"
-CMD_START="cd $MOCK_HOME ; java -jar wiremock-1.57-standalone.jar --port $MOCK_SERVER_PORT --verbose"
+LOCK_FILE="/opt/${PRODUCT_CODE}/wiremock.lck"
+MOCK_LOG_FILE="wiremock.log"
+CMD_START="cd /opt/${PRODUCT_CODE} ; java -jar wiremock-1.57-standalone.jar --port $MOCK_SERVER_PORT --verbose"
 CMD_STOP="kill -9"
 JAVA_HOME="/usr/java/latest"
-MOCK_LOG_FILE="wiremock.log"
 
 export JAVA_HOME=$JAVA_HOME
 
 # Status the service
 status() {
-   PID=`ps axww | grep 7788 | grep wiremock | grep -v grep | awk '{print $1}'`
-   ps -fp $PID > /dev/null 2>&1
-   PIDVAL=$?
-   if [ $PIDVAL -eq 0 ]
-      then
-         echo "$PRODUCT_CODE server is running ..."
-      else
-         echo "$PRODUCT_CODE server is stopped."
-   fi
-   return $PIDVAL
+  PID=`ps axww | grep 7788 | grep wiremock | grep -v grep | awk '{print $1}'`
+  ps -fp $PID > /dev/null 2>&1
+  PIDVAL=$?
+  if [ $PIDVAL -eq 0 ]
+    then
+      echo "[$PRODUCT_CODE] server is running (pid "$PID")"
+    else
+      echo "[$PRODUCT_CODE] server is stopped (pid not found)"
+  fi
+  return $PIDVAL
 }
 
 # Start the service
 start() {
-   PID=`ps axww | grep 7788 | grep wiremock | grep -v grep | awk '{print $1}'`
-   ps -fp $PID > /dev/null 2>&1
-   PIDVAL=$?
-   if [ $PIDVAL -eq 0 ]
-      then
-        echo "$PRODUCT_CODE server is running ..."
-      else
-        echo -n "Starting $PRODUCT_CODE server ... "
-        touch $LOCK_FILE
-        su - $USER -c "$CMD_START > $MOCK_LOG_FILE 2>&1 &"
-        sleep 5
-        PID=`ps axww | grep 7788 | grep wiremock | grep -v grep | awk '{print $1}'`
-        ps -fp $PID > /dev/null 2>&1
-        PIDVAL=$?
-        if [ $PIDVAL -eq 0 ]
-          then
-            echo "success"
-          else
-            echo "failure"
-        fi
-   fi
-   return $PIDVAL
+  PID=`ps axww | grep 7788 | grep wiremock | grep -v grep | awk '{print $1}'`
+  ps -fp $PID > /dev/null 2>&1
+  PIDVAL=$?
+  if [ $PIDVAL -eq 0 ]
+    then
+      echo "[$PRODUCT_CODE] server is running (pid "$PID")"
+    else
+      echo -n "[$PRODUCT_CODE] server starting ... "
+      touch $LOCK_FILE
+      su - $USER -c "$CMD_START > $MOCK_LOG_FILE 2>&1 &"
+      sleep 5
+      PID=`ps axww | grep 7788 | grep wiremock | grep -v grep | awk '{print $1}'`
+      ps -fp $PID > /dev/null 2>&1
+      PIDVAL=$?
+      if [ $PIDVAL -eq 0 ]
+        then
+          echo "success (pid "$PID")"
+        else
+          echo "failure (pid "$PID")"
+      fi
+  fi
+  return $PIDVAL
 }
 
 
@@ -70,7 +69,7 @@ stop() {
   PIDVAL=$?
   if [ $PIDVAL -eq 0 ]
       then
-         echo -n "Stopping $PRODUCT_CODE server ... "
+         echo -n "[$PRODUCT_CODE] server ... "
          su - $USER -c "$CMD_STOP $PID > /dev/null 2>&1 &"
          rm -f $LOCK_FILE
          sleep 10
@@ -79,14 +78,14 @@ stop() {
          PIDVAL=$?
          if [ $PIDVAL -eq 0 ]
              then
-                echo "failure"
+                echo "failure (pid "$PID")"
                 PIDVAL=2
              else
-                echo "success"
+                echo "success (pid "$PID")"
                 PIDVAL=0
          fi
       else
-         echo "$PRODUCT_CODE server is not running."
+         echo "[$PRODUCT_CODE] server is not running (pid not found)"
          PIDVAL=0
   fi
   return $PIDVAL
@@ -103,7 +102,7 @@ stop)
 status)
     status
     ;;
-restart|reload|condrestart)
+restart|reload)
     stop
     start
     ;;

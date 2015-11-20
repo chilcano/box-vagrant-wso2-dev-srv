@@ -11,7 +11,7 @@
 ### END INIT INFO
 
 USER="vagrant"
-PRODUCT_CODE="RTAIL"
+PRODUCT_CODE="rTail"
 RTAIL_HOME="/opt/rtail"
 RTAIL_IP="10.0.2.15"
 RTAIL_UP="9191"
@@ -83,7 +83,7 @@ do_stop() {
   PIDVAL=$?
   if [ $PIDVAL -eq 0 ]
       then
-        echo -n "[$SRV_NAME] isn't stopped sending logs to $PRODUCT_CODE ... "
+        echo -n "[$SRV_NAME] is stopping sending logs to $PRODUCT_CODE ... "
         su - $USER -c "$CMD_STOP $PID > /dev/null 2>&1 &"
         rm -f $LOCK_FILE
         sleep 3
@@ -146,7 +146,7 @@ restart)
     do_start "wiremock"
     ;;
 *)
-   echo $"Usage: $0 {start|stop|restart|reload|status}"
+   echo $"Usage: $0 {start|stop|restart|status}"
    exit 1
 esac
 exit $?

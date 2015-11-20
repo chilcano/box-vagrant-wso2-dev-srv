@@ -11,7 +11,7 @@
 ### END INIT INFO
 
 USER="vagrant"
-PRODUCT_CODE="RTAIL_SERVER"
+PRODUCT_CODE="rTail"
 RTAIL_HOME="/opt/rtail"
 RTAIL_IP="10.0.2.15"
 RTAIL_WP="8181"
@@ -30,9 +30,9 @@ status() {
    PIDVAL=$?
    if [ $PIDVAL -eq 0 ]
       then
-         echo "$PRODUCT_CODE server is running ..."
+         echo "[$PRODUCT_CODE] server is running (pid "$PID")"
       else
-         echo "$PRODUCT_CODE server is stopped."
+         echo "[$PRODUCT_CODE] server is stopped (pid "$PID")"
    fi
    return $PIDVAL
 }
@@ -44,9 +44,9 @@ start() {
    PIDVAL=$?
    if [ $PIDVAL -eq 0 ]
       then
-        echo "$PRODUCT_CODE is running."
+        echo "[$PRODUCT_CODE] is running."
       else
-        echo -n "Starting $PRODUCT_CODE ... "
+        echo -n "[$PRODUCT_CODE] is starting ... "
         touch $LOCK_FILE
         su - $USER -c "$CMD_START > /dev/null 2>&1 &"
         sleep 5
@@ -55,14 +55,13 @@ start() {
         PIDVAL=$?
         if [ $PIDVAL -eq 0 ]
           then
-            echo "success"
+            echo "success (pid "$PID")"
           else
-            echo "failure"
+            echo "failure (pid "$PID")"
         fi
    fi
    return $PIDVAL
 }
-
 
 # Stop the service
 stop() {
@@ -71,7 +70,7 @@ stop() {
   PIDVAL=$?
   if [ $PIDVAL -eq 0 ]
       then
-         echo -n "Stopping $PRODUCT_CODE ... "
+         echo -n "[$PRODUCT_CODE] is being stopped ... "
          su - $USER -c "$CMD_STOP $PID > /dev/null 2>&1 &"
          rm -f $LOCK_FILE
          sleep 5
@@ -80,14 +79,14 @@ stop() {
          PIDVAL=$?
          if [ $PIDVAL -eq 0 ]
              then
-                echo "failure"
+                echo "failure (pid "$PID")"
                 PIDVAL=2
              else
-                echo "success"
+                echo "success (pid "$PID")"
                 PIDVAL=0
          fi
       else
-         echo "$PRODUCT_CODE is not running."
+         echo "[$PRODUCT_CODE] is not running (pid not found)"
          PIDVAL=0
   fi
   return $PIDVAL
@@ -104,7 +103,7 @@ stop)
 status)
     status
     ;;
-restart|reload|condrestart)
+restart|reload)
     stop
     start
     ;;

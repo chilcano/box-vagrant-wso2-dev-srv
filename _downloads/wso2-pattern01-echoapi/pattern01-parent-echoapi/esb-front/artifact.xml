@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<artifacts>
+    <artifact name="pattern01-echo-front-ep" groupId="info.intix.wso2.msbook.pattern01.esb.front.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/pattern01-echo-front-ep.xml</file>
+    </artifact>
+    <artifact name="pattern01-logger-front-tpl" groupId="info.intix.wso2.msbook.pattern01.esb.front.template" version="1.0.0" type="synapse/sequenceTemplate" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/templates/pattern01-logger-front-tpl.xml</file>
+    </artifact>
+    <artifact name="pattern01-echo-front-proxy" groupId="info.intix.wso2.msbook.pattern01.esb.front.proxy-service" version="1.0.0" type="synapse/proxy-service" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/proxy-services/pattern01-echo-front-proxy.xml</file>
+    </artifact>
+    <artifact name="pattern01-echo-front-api" groupId="info.intix.wso2.msbook.pattern01.esb.front.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/pattern01-echo-front-api.xml</file>
+    </artifact>    
+    <artifact name="pattern01-echoint-front-seq-in" groupId="info.intix.wso2.msbook.pattern01.esb.front.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/pattern01-echoint-front-seq-in.xml</file>
+    </artifact>
+    <artifact name="pattern01-echoint-front-seq-out" groupId="info.intix.wso2.msbook.pattern01.esb.front.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/pattern01-echoint-front-seq-out.xml</file>
+    </artifact>
+    <artifact name="pattern01-echoint-front-seq-fault" groupId="info.intix.wso2.msbook.pattern01.esb.front.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/pattern01-echoint-front-seq-fault.xml</file>
+    </artifact>
+    <artifact name="pattern01-echostring-front-seq-in" groupId="info.intix.wso2.msbook.pattern01.esb.front.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/pattern01-echostring-front-seq-in.xml</file>
+    </artifact>
+    <artifact name="pattern01-echostring-front-seq-out" groupId="info.intix.wso2.msbook.pattern01.esb.front.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/pattern01-echostring-front-seq-out.xml</file>
+    </artifact>
+    <artifact name="pattern01-echostring-front-seq-fault" groupId="info.intix.wso2.msbook.pattern01.esb.front.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/pattern01-echostring-front-seq-fault.xml</file>
+    </artifact>
+</artifacts>

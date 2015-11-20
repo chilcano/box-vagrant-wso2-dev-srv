@@ -88,6 +88,11 @@ The servers installed and configured are:
 * URL: http://localhost:7788/__admin
 * Useful to implement mock services (REST and SOAP)
 
+### rTail server (logging)
+* HTTP Port (view logs): 8181
+* UDP Port (receive logs): 9191
+* URL: http://localhost:8181
+* Useful to trail the logs
 
 ## Details about the installed servers
 
@@ -98,7 +103,7 @@ The servers installed and configured are:
 
 ## Getting starting with VM
 
-1. Download the VM
+__1) Download the VM__
 
 ```
 $ mkdir -p ~/github-repo/vagrant/
@@ -106,37 +111,38 @@ $ git clone https://github.com/Chilcano/vagrant/wso2-dev-srv.git
 $ cd ~/github-repo/vagrant/wso2-dev-srv
 ```
 
-2. Start the VM
+__2) Start the VM__
+
+The first time this process will take long time becuase the ISO image and Software to be installed will download.
 
 ```
 $ vagrant up
 ```
 
-3. Stop, reload and re/provisioning
+__3) Stop, reload and re/provisioning__
 
 ```
 $ vagrant halt
 $ vagrant reload
 $ vagrant provision
+```
+
+Reload and provisioning:
+```
 $ vagrant reload --provision
 ```
 
-4. SSH access to the VM
+__4) SSH access to the VM__
 
 ```
 $ vagrant ssh
 ```
 
-## Starting the WSO2 servers
+## Starting the WSO2 servers and Wiremock
 
-
-1. When starting the first time any WSO2 server, you have to run this command in your VM with user `vagrant`:
+1) When starting the first time any WSO2 server have to be started running this command `wso2server.sh -Dsetup` in your VM with the user `vagrant`:
 
 ```
-$ vagrant ssh 
-
-...
-
 $ ./opt/%WSO2_SERVER_NAME%/bin/wso2server.sh -Dsetup
 ...
 [2015-11-11 07:21:20,886]  INFO - RegistryEventingServiceComponent Successfully Initialized Eventing on Registry
@@ -146,31 +152,32 @@ $ ./opt/%WSO2_SERVER_NAME%/bin/wso2server.sh -Dsetup
 [2015-11-11 07:21:21,701]  INFO - CarbonUIServiceComponent Mgt Console URL  : https://192.168.11.20:9449/carbon/
 ```
 
-Repeat this process replacing `%WSO2_SERVER_NAME%` for:
+Repeat this process for each WSO2 instance by replacing `%WSO2_SERVER_NAME%` for:
 * `wso2am02a`
 * `wso2esb01`
 * `wso2esb02`
 * `wso2dss01a`
-* `wso2greg01a`
+* `wso2greg01a` 
 
-To close the running server, just CTRL+C in the shell console where the server is running.
+To close the running server, just `CTRL+C` in the shell console where the server is running.
 
 
-2. The next times when you want to start the WSO2 servers, I recommend to use the init.d scripts:
+2) The next times when starting the WSO2 servers, I recommend to use the `init.d` scripts already created. Using these scripts the WSO2 instances will start as a Linux service.
 
 ```
 $ sudo service %WSO2_SERVER_NAME% start|stop|restart
 ```
 
-Repeat this process replacing `%WSO2_SERVER_NAME%` for:
+The WSO2 scripts available in /etc/init.d/ match with the name of WSO2 and Wiremock instances and they are:
 * `wso2am02a`
 * `wso2esb01`
 * `wso2esb02`
 * `wso2dss01a`
 * `wso2greg01a`
+* `wiremock`
 
 
-3. For Wiremock
+Wiremock doesn't require to run an initial script, to start Wiremock as a Linux service just use this:
 
 ```
 $ sudo service wiremock start|stop|restart
@@ -179,12 +186,11 @@ $ sudo service wiremock start|stop|restart
 
 ## Enabling linux services to start automatically
 
-All WSO2 servers and Wiremock can start automatically, to do that, just apply `defaults` or `enable` to the run levels for the init.d script:
+All WSO2 servers and Wiremock can start automatically when booting the VM, to do that, just apply `defaults` or `enable` to the run levels for all above `init.d` scripts:
 
 ```
 $ sudo update-rc.d %WSO2_SERVER_NAME% defaults
 $ sudo update-rc.d %WSO2_SERVER_NAME% enable
-$ sudo update-rc.d %WSO2_SERVER_NAME% disable
 ```
 
 Where `%WSO2_SERVER_NAME%` could be:
@@ -194,13 +200,148 @@ Where `%WSO2_SERVER_NAME%` could be:
 * `wso2dss01a`
 * `wso2greg01a`
 
+The `wiremock` script doesn't require to enable to start automatically when booting because `wiremock` was already enabled using Puppet modules.
+
 Now, if you reboot the VM, the `%WSO2_SERVER_NAME%` will start too.
+
+If you want to disable the init.d scripts, just execute the next command:
+```
+$ sudo update-rc.d %WSO2_SERVER_NAME% disable
+```
+
+To check all Linux services running, just execute this in your VM:
+
+```
+$ service --status-all
+ ...
+ [ + ]  rtail
+ [ + ]  rtailsendlogs
+ ...
+ [ + ]  wiremock
+ [ - ]  wso2am02a
+ [ - ]  wso2dss01a
+ [ - ]  wso2esb01a
+ [ - ]  wso2esb02a
+ [ - ]  wso2greg01a
+ ...
+```
+
+## Monitoring the (Micro)services: Logging
+
+Trailing and checking of the performance and the health of (micro)services are important tasks to be accomplished.
+The logging is a time consuming process and we have to prepare before in order to be more productive.
+There are many tools out there, opensource, commercial, on-cloud, such as log.io, ELK, Clarity, rTail, Tailon, frontail, etc. In my opinion, for a VM used to development the most simple, fresh and lightweight tool is rTail (http://rtail.org).
+
+With rTail I can collect different log files, track and visualize them from a Browser in __real time__. rTail is very easy to use, just install NodeJS and deploy rTail application and you will be ready to send any type of traces to Browser directly avoiding store/persist logs, index and parse/filter them. 
+
+### Using rTail
+
+I have created a Puppet module for rTail and a set of scripts to collect and send traces of all WSO2 instances and Wiremock to the Browser.
+
+Below the steps to follow:
+
+__1) The rTail Vagrant re-provisioning__
+
+```
+$ cd ~/github-repo/box-vagrant-wso2-dev-srv
+$ git pull
+$ vagrant reload --provision
+```
+
+__2) Check node.js and rTail installation__
+
+```
+$ cd ~/github-repo/box-vagrant-wso2-dev-srv
+$ vagrant ssh
+```
+
+```
+vagrant@wso2-dev-srv-01 $ node -v
+v0.10.25
+
+vagrant@wso2-dev-srv-01 $ npm list -g rtail
+/usr/local/lib
+└── rtail@0.2.1
+```
+
+__3) Checking if rTail server is running__
+
+The configuration for rTail server is:
+* UDP port: 9191
+* HTTP port: 8181 
+* rTail home folder: /opt/rtail
+* Script init.d for rTail server: /etc/init.d/rtail
+* Script init.d to send all logs to rTail server: /etc/init.d/rtailsendlogs
+
+Now, make sure the rTail server is running. 
+
+```
+$ service --status-all
+ ...
+ [ + ]  rtail
+ [ + ]  rtailsendlogs
+ ...
+
+$ sudo service rtail status
+[rTail] server is running (pid 1234)
+```
+
+There is a rTail Puppet module to enable the rTail server to start automatically when booting the VM.
+In other words, rTail server always is listening in the port UDP to receive events and logs. 
+
+__4) Sending logs to rTail server__
+
+I have created a bash script to send all log events to the rTail server. The above rTail Puppet module also enables it to start automatically  to send logs to rTail server when booting the VM. 
+
+You can find the bash script under `/etc/init.d/rtailsendlogs` and can run it whenever, as shown below:
+
+```
+$ sudo service rtailsendlogs status
+[wso2am02a] is sending logs to rTail.
+[wso2esb01a] is sending logs to rTail.
+[wso2esb02a] is sending logs to rTail.
+[wso2dss01a] is sending logs to rTail.
+[wso2greg01a] is sending logs to rTail.
+[wiremock] is sending logs to rTail.
+
+$ sudo service rtailsendlogs stop
+[wso2am02a] is stopping sending logs to rTail ... success
+[wso2esb01a] is stopping sending logs to rTail ... success
+[wso2esb02a] is stopping sending logs to rTail ... success
+[wso2dss01a] is stopping sending logs to rTail ... success
+[wso2greg01a] is stopping sending logs to rTail ... success
+[wiremock] is stopping sending logs to rTail ... success
+
+$ sudo service rtailsendlogs start
+[wso2am02a] is starting sending logs to rTail ... success
+[wso2esb01a] is starting sending logs to rTail ... success
+[wso2esb02a] is starting sending logs to rTail ... success
+[wso2dss01a] is starting sending logs to rTail ... success
+[wso2greg01a] is starting sending logs to rTail ... success
+[wiremock] is starting sending logs to rTail ... success
+```
+
+__5) Visualizing all logs from Browser using rTail__
+
+Just open this URL `http://localhost:8181 in your Browser (Host) and you should view the next:
+
+<img src="https://github.com/Chilcano/box-vagrant-wso2-dev-srv/blob/master/_downloads/chilcano-box-vagrant-wso2-dev-srv-rtail-logs.png" width="300" alt="rTail to collect and visualize all WSO2 logs from a Browser"/>
+
+
+## Monitoring the Infraestructure
+
+_Soon I will use one of them: Riemann, Jolokia, CollectD/Graphite, Grafana, etc...._
+
 
 ## Updates
 
-- 2015.11.13: Added the rTail puppet module to collect, correlate, track and visualize all WSO2 logs using a browser.
+- 2015.11.13: Added the rTail puppet module 
+- 2015.11.20: 
+..* Added Wiremock samples (echo mock services) and WSO2 ESB multi-maven project.
+..* Added `_downloads/vagrant-vboxguestadditions-workaroud.md`.
+..* Added functionality to automount WSO2 folders of Guest to Host.
+..* Improved README.md with information how to work with rTail.
 
-<img src="https://github.com/Chilcano/box-vagrant-wso2-dev-srv/blob/master/_downloads/chilcano-box-vagrant-wso2-dev-srv-rtail-logs.png" width="100" alt="rTail to collect and visualize all WSO2 logs from a Browser"/>
 
 ## TODO
 

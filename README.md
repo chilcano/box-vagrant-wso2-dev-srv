@@ -46,55 +46,55 @@ My directory structure looks like:
 
 The servers installed and configured are:
 
-### WSO2 AM (back tier)
+__WSO2 AM (back tier)__
 * Offset: +0
 * Hostname: wso2am02a
 * Version: wso2am-1.8.0
-* URL: https://localhost:9443/carbon
+* URL: [https://localhost:9443/carbon](https://localhost:9443/carbon)
 * Gateway, Key Manager, Publisher and Store are placed in the back tier.
 
-### WSO2 ESB (front tier)
+__WSO2 ESB (front tier)__
 * Offset: +6
 * Hostname: wso2esb01a
 * Version: wso2esb-4.8.1
-* URL: https://localhost:9449/carbon
+* URL: [https://localhost:9449/carbon](https://localhost:9449/carbon)
 * The node is placed in front tier and should be used to do validations (JSON and XSD schemas)
 
-### WSO2 DSS (front tier)
+__WSO2 DSS (front tier)__
 * Offset: +3
 * Hostname: wso2dss01a
 * Version: wso2dss-3.5.0
-* URL: https://localhost:9446/carbon
+* URL: [https://localhost:9446/carbon](https://localhost:9446/carbon)
 * The node is placed in front tier
 
-### WSO2 GREG (front tier)
+__WSO2 GREG (front tier)__
 * Offset: +8
 * Hostname: wso2greg01a
 * Version: wso2greg-5.1.0
-* URL: https://localhost:9451/carbon
+* URL: [https://localhost:9451/carbon](https://localhost:9451/carbon)
 * The node is placed in front tier and is used as registry to store artifacts and configurations.
 
-### WSO2 ESB (back tier)
+__WSO2 ESB (back tier)__
 * Offset: +2
 * Hostname: wso2esb02a
 * Version: wso2esb-4.8.1
-* URL: https://localhost:9445/carbon
+* URL: [https://localhost:9445/carbon](https://localhost:9445/carbon)
 * The node is placed in back tier and should be used to do transformations (JSON to XML, XML to JSON, etc.)
 
-### Wiremock (as backend)
+__Wiremock (as backend)__
 * Port: 7788
 * Hostname: wiremock
 * Version: 1.57-standalone
-* URL: http://localhost:7788/__admin
+* URL: [http://localhost:7788/__admin](http://localhost:7788/__admin)
 * Useful to implement mock services (REST and SOAP)
 
-### rTail server (logging)
+__rTail server (logging)__
 * HTTP Port (view logs): 8181
 * UDP Port (receive logs): 9191
-* URL: http://localhost:8181
-* Useful to trail the logs
+* URL: [http://localhost:8181](http://localhost:8181)
+* Useful to trail log events
 
-## Details about the installed servers
+### Details about the installed servers
 
 - The servers are installed under the `/opt/` folder.
 - The init.d scripts were copied under `/etc/inid.d/` folder.
@@ -127,7 +127,7 @@ $ vagrant reload
 $ vagrant provision
 ```
 
-Reload and provisioning:
+Reload and provision:
 ```
 $ vagrant reload --provision
 ```
@@ -323,7 +323,7 @@ $ sudo service rtailsendlogs start
 
 __5) Visualizing all logs from Browser using rTail__
 
-Just open this URL `http://localhost:8181 in your Browser (Host) and you should view the next:
+Just open this URL `http://localhost:8181` in your Browser (Host) and you should view the next:
 
 <img src="https://github.com/Chilcano/box-vagrant-wso2-dev-srv/blob/master/_downloads/chilcano-box-vagrant-wso2-dev-srv-rtail-logs.png" width="300" alt="rTail to collect and visualize all WSO2 logs from a Browser"/>
 
@@ -337,10 +337,10 @@ _Soon I will use one of them: Riemann, Jolokia, CollectD/Graphite, Grafana, etc.
 
 - 2015.11.13: Added the rTail puppet module 
 - 2015.11.20: 
-..* Added Wiremock samples (echo mock services) and WSO2 ESB multi-maven project.
-..* Added `_downloads/vagrant-vboxguestadditions-workaroud.md`.
-..* Added functionality to automount WSO2 folders of Guest to Host.
-..* Improved README.md with information how to work with rTail.
+  * Added Wiremock samples (echo mock services) and WSO2 ESB multi-maven project.
+  * Added `_downloads/vagrant-vboxguestadditions-workaroud.md`.
+  * Added functionality to automount WSO2 folders of Guest to Host.
+  * Improved README.md with information how to work with rTail.
 
 
 ## TODO
@@ -348,11 +348,9 @@ _Soon I will use one of them: Riemann, Jolokia, CollectD/Graphite, Grafana, etc.
 - Load balancing and Virtual Hosts/IPs (HA Proxy or nginx)
 - Custom HealthCheck
 - Correlation propagation between WSO2 servers and Backend 
-- Collection, aggregation and trailing of all logs in real time (log.io, ELK, Clarity, rTail, Tailon, frontail, ufff.. there are many tools out there... )
-- Monitoring (Riemann, Jolokia, CollectD/Graphite, Grafana, ...)
 - Custom Mediators (Authentication, Authorization, Logging, Correlation, Common Validations and Transformations)
 - WSO2 services patterns deployed as samples
-- Migrate to Docker
+- Docker
 
 
 ## Resources

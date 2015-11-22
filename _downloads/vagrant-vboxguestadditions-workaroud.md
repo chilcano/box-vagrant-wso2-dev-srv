@@ -1,5 +1,4 @@
-How to install the VirtualBox Guest Additions manually in a Vagrant box
-========================================================================
+# How to install the VirtualBox Guest Additions manually in a Vagrant box
 
 
 __1) Download the VirtualBox Additions ISO (4.3.10)__

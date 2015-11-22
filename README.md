@@ -209,7 +209,7 @@ If you want to disable the init.d scripts, just execute the next command:
 $ sudo update-rc.d %WSO2_SERVER_NAME% disable
 ```
 
-To check all Linux services running, just execute this in your VM:
+To check what Linux services are running, just execute this in your VM:
 
 ```
 $ service --status-all
@@ -269,9 +269,9 @@ __3) Checking if rTail server is running__
 The configuration for rTail server is:
 * UDP port: 9191
 * HTTP port: 8181 
-* rTail home folder: /opt/rtail
-* Script init.d for rTail server: /etc/init.d/rtail
-* Script init.d to send all logs to rTail server: /etc/init.d/rtailsendlogs
+* rTail home folder: `/opt/rtail`
+* Script init.d for rTail server: `/etc/init.d/rtail`
+* Script init.d to send all logs to rTail server: `/etc/init.d/rtailsendlogs`
 
 Now, make sure the rTail server is running. 
 
@@ -390,8 +390,9 @@ To enable `future parser`in Puppet, just add this line `parser = future` to `/et
 
 ```
 $ sudo nano /etc/puppet/puppet.conf
+```
 
-
+```
 [main]
 ...
 parser = future
@@ -403,8 +404,16 @@ parser = future
 After that, restart your VM.
 
 
-3.- `here your issue`
+3.- Vagrant can't mouth folders (`Failed to mount folders in Linux guest. This is usually because ...`)
+
+Has been reported a bug in VirtualBox Guest Additions 4.3.10 where is not possible mount folders. For this reason, Vagrant can not share folders between guest and host. 
+Further details here: [https://www.virtualbox.org/ticket/12879](https://www.virtualbox.org/ticket/12879)
+
+I have created a guide for you to fix that: [_downloads/vagrant-vboxguestadditions-workaroud.md](_downloads/vagrant-vboxguestadditions-workaroud.md)
+
+
+4.- `here your issue`
 
 ```
-Drop me an message at chilcano =at= intix.info
+Drop me a message here chilcano =at= intix.info
 ```

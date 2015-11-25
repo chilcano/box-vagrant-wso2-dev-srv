@@ -436,17 +436,19 @@ Basically, this pom.xml has been configured following the instructions of above 
 __3) Using Maven to build, deploy and undeploy WSO2 C-App Project__
 
 
-* Go to your Project directory:
-  `$ cd  
+```
+# Go to your Project directory:
+$ cd ~/1github-repo/box-vagrant-wso2-dev-srv/_src/wso2-pattern01-echoapi/pattern01-parent-echoapi/ 
 
-* To _build_:
-  `$ mvn clean install`
+# To _build_:
+$ mvn clean install
 
-* To _deploy_ in both remote WSO2 ESB servers and Maven repository:
-  `mvn clean deploy -Dmaven.car.deploy.skip=false -Dmaven.deploy.skip=false -Dmaven.wagon.http.ssl.insecure=true -Dmaven.car.deploy.operation=deploy`
+# To _deploy_ in both remote WSO2 ESB servers and Maven repository:
+$ mvn clean deploy -Dmaven.car.deploy.skip=false -Dmaven.deploy.skip=false -Dmaven.wagon.http.ssl.insecure=true -Dmaven.car.deploy.operation=deploy
 
-* To _undeploy_ in both remote WSO2 ESB servers and Maven repository:
-  `mvn clean deploy -Dmaven.car.deploy.skip=false -Dmaven.deploy.skip=false -Dmaven.wagon.http.ssl.insecure=true -Dmaven.car.deploy.operation=deploy`
+# To _undeploy_ in both remote WSO2 ESB servers and Maven repository:
+$ mvn clean deploy -Dmaven.car.deploy.skip=false -Dmaven.deploy.skip=false -Dmaven.wagon.http.ssl.insecure=true -Dmaven.car.deploy.operation=deploy
+```
 
 If '-Dmaven.deploy.skip=false' is used, then use this '-Dmaven.wagon.http.ssl.insecure=true', because It avoids the below error when deploying or undeploying.
 

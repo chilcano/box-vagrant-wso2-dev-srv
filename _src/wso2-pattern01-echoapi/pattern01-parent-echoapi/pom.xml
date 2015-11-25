@@ -30,12 +30,11 @@
         </configuration>
       </plugin>
 
-<!-- ********** --> 
+      <!-- Begin : Configuration to deploy CAR in remote WSO2 server and Maven repository --> 
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-eclipse-plugin</artifactId>
-        <!--
         <version>2.9</version>
         <configuration>
           <buildcommands/>
@@ -43,7 +42,6 @@
             <projectnature>org.wso2.developerstudio.eclipse.distribution.project.nature</projectnature>
           </projectnatures>
         </configuration>
-      -->
       </plugin>
       <plugin>
         <groupId>org.wso2.maven</groupId>
@@ -154,5 +152,7 @@
       <url>http://localhost:8080/repository/snapshots/</url>
     </snapshotRepository>    
   </distributionManagement>
+
+  <!-- End : Configuration to deploy CAR in remote WSO2 server and Maven repository --> 
 
 </project>

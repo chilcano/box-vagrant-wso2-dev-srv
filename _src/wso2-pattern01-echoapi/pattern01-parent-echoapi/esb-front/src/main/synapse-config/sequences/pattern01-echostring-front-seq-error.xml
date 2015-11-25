@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sequence name="pattern01-echostring-front-seq-fault" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+<sequence name="pattern01-echostring-front-seq-error" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
       <log level="custom">
          <property name="MENSAJE" value="MENSAJE API ECHO STRING DE ERROR"/>
       </log>

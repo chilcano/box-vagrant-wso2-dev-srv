@@ -87,6 +87,7 @@
               </arguments>
             </configuration>
           </execution>
+
           <execution>
             <id>deploy</id>
             <phase>deploy</phase>
@@ -102,6 +103,7 @@
               </arguments>
             </configuration>
           </execution>
+          
         </executions>
         <configuration />
       </plugin>

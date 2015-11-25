@@ -40,7 +40,7 @@ do_start() {
     else
       echo -n "[$PRODUCT_CODE] starting server ... "
       sleep 10
-      su - $USER -c $CMD start > /dev/null 2>&1 &
+      su - $USER -c "$CMD start > /dev/null 2>&1" &
       sleep 5
       PID=`cat $PID_FILE`
       if [ $PID -eq 0 ]
@@ -58,7 +58,7 @@ do_stop() {
     then
       PID=`cat $PID_FILE`
       echo -n "[$PRODUCT_CODE] stopping server ... "
-      su - $USER -c $CMD stop > /dev/null 2>&1 &
+      su - $USER -c "$CMD stop > /dev/null 2>&1" &
       sleep 10
       if [ $PID -eq 0 ]
         then

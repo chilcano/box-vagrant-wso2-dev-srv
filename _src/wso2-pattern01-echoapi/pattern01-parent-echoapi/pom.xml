@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>info.intix.wso2.msbook</groupId>
+  <artifactId>pattern01-parent-echoapi</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  <name>pattern01-parent-echoapi</name>
+  <description>pattern01-parent-echoapi</description>
+
+  <modules>
+    <module>esb-back</module>
+    <module>esb-front</module>
+    <module>pattern01-echoapi</module>
+  </modules>
+
+  <build>
+    <plugins>
+      
+      <plugin>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <buildcommands />
+          <projectnatures>
+            <projectnature>org.wso2.developerstudio.eclipse.mavenmultimodule.project.nature</projectnature>
+          </projectnatures>
+        </configuration>
+      </plugin>
+
+<!-- ********** --> 
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <!--
+        <version>2.9</version>
+        <configuration>
+          <buildcommands/>
+          <projectnatures>
+            <projectnature>org.wso2.developerstudio.eclipse.distribution.project.nature</projectnature>
+          </projectnatures>
+        </configuration>
+      -->
+      </plugin>
+      <plugin>
+        <groupId>org.wso2.maven</groupId>
+        <artifactId>maven-car-plugin</artifactId>
+        
+        <version>2.1.0</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>car</id>
+            <phase>package</phase>
+            <goals>
+              <goal>car</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration/>
+      
+      </plugin>
+      <plugin>
+        <groupId>org.wso2.maven</groupId>
+        <artifactId>maven-car-deploy-plugin</artifactId>
+        <version>1.1.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <carbonServers>
+
+            <!-- (-Dmaven.car.deploy.operation=deploy|undeploy) -->
+            <CarbonServer>
+              <trustStorePath>/Users/Chilcano/1github-repo/box-vagrant-wso2-dev-srv/_mnt_wso2esb01a/repository/resources/security/wso2carbon.jks</trustStorePath>
+              <trustStorePassword>wso2carbon</trustStorePassword>
+              <trustStoreType>JKS</trustStoreType>
+              <serverUrl>https://localhost:9449</serverUrl>
+              <userName>admin</userName>
+              <password>admin</password>
+              <operation>${maven.car.deploy.operation}</operation>
+            </CarbonServer>
+            <CarbonServer>
+              <trustStorePath>/Users/Chilcano/1github-repo/box-vagrant-wso2-dev-srv/_mnt_wso2esb02a/repository/resources/security/wso2carbon.jks</trustStorePath>
+              <trustStorePassword>wso2carbon</trustStorePassword>
+              <trustStoreType>JKS</trustStoreType>
+              <serverUrl>https://localhost:9445</serverUrl>
+              <userName>admin</userName>
+              <password>admin</password>
+              <operation>${maven.car.deploy.operation}</operation>
+            </CarbonServer>
+
+          </carbonServers>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+  
+  <repositories>
+    <repository>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>daily</updatePolicy>
+        <checksumPolicy>ignore</checksumPolicy>
+      </releases>
+      <id>wso2-nexus</id>
+      <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
+    </repository>
+    <repository>
+      <id>wso2-maven2-repository-1</id>
+      <url>http://dist.wso2.org/maven2</url>
+    </repository>
+    <repository>
+      <id>wso2-nexus-repository-1</id>
+      <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>daily</updatePolicy>
+        <checksumPolicy>ignore</checksumPolicy>
+      </releases>
+      <id>wso2-nexus</id>
+      <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>wso2-maven2-repository-1</id>
+      <url>http://dist.wso2.org/maven2</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>wso2-nexus-repository-1</id>
+      <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <!-- 'true' in both by default and overwritte from maven command -->
+  <properties>
+    <maven.car.deploy.skip>true</maven.car.deploy.skip> <!-- false: car deploy in remote wso2 server -->
+    <maven.deploy.skip>true</maven.deploy.skip> <!-- false: car deploy in remote maven repo -->
+  </properties>
+
+  <distributionManagement>
+    <repository>
+      <id>my.internal</id>
+      <url>http://localhost:8080/repository/internal/</url>
+    </repository>
+    <snapshotRepository>
+      <id>my.snapshots</id>
+      <url>http://localhost:8080/repository/snapshots/</url>
+    </snapshotRepository>    
+  </distributionManagement>
+
+</project>

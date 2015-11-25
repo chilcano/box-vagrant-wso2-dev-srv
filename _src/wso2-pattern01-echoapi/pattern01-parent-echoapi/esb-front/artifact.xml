@@ -18,8 +18,8 @@
     <artifact name="pattern01-echoint-front-seq-out" groupId="info.intix.wso2.msbook.pattern01.esb.front.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/pattern01-echoint-front-seq-out.xml</file>
     </artifact>
-    <artifact name="pattern01-echoint-front-seq-fault" groupId="info.intix.wso2.msbook.pattern01.esb.front.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/sequences/pattern01-echoint-front-seq-fault.xml</file>
+    <artifact name="pattern01-echoint-front-seq-error" groupId="info.intix.wso2.msbook.pattern01.esb.front.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/pattern01-echoint-front-seq-error.xml</file>
     </artifact>
     <artifact name="pattern01-echostring-front-seq-in" groupId="info.intix.wso2.msbook.pattern01.esb.front.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/pattern01-echostring-front-seq-in.xml</file>
@@ -27,7 +27,7 @@
     <artifact name="pattern01-echostring-front-seq-out" groupId="info.intix.wso2.msbook.pattern01.esb.front.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/pattern01-echostring-front-seq-out.xml</file>
     </artifact>
-    <artifact name="pattern01-echostring-front-seq-fault" groupId="info.intix.wso2.msbook.pattern01.esb.front.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/sequences/pattern01-echostring-front-seq-fault.xml</file>
+    <artifact name="pattern01-echostring-front-seq-error" groupId="info.intix.wso2.msbook.pattern01.esb.front.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/pattern01-echostring-front-seq-error.xml</file>
     </artifact>
 </artifacts>

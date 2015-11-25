@@ -450,9 +450,10 @@ $ mvn clean deploy -Dmaven.car.deploy.skip=false -Dmaven.deploy.skip=false -Dmav
 $ mvn clean deploy -Dmaven.car.deploy.skip=false -Dmaven.deploy.skip=false -Dmaven.wagon.http.ssl.insecure=true -Dmaven.car.deploy.operation=deploy
 ```
 
-If '-Dmaven.deploy.skip=false' is used, then use this '-Dmaven.wagon.http.ssl.insecure=true', because It avoids the below error when deploying or undeploying.
+If `-Dmaven.deploy.skip=false` is used, then use this `-Dmaven.wagon.http.ssl.insecure=true`, because It avoids the below error when deploying or undeploying.
 
 ```
+...
 [INFO] --- maven-car-deploy-plugin:1.1.0:deploy-car (default-deploy-car) @ pattern01-echoapi ---
 [INFO] Deploying to Server...
 [INFO] TSPath=/Users/Chilcano/1github-repo/box-vagrant-wso2-dev-srv/_mnt_wso2esb01a/repository/resources/security/wso2carbon.jks

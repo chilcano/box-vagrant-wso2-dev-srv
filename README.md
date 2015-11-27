@@ -22,7 +22,7 @@ This VM tries to implement 2 tiers for the middleware and they are:
 - I wanna use Wiremock as mock server to implement REST and SOAP services.
 
 
-If you have the jar and zip files previously downloaded, just place your files under %VM_VAGRANT_HOME%/_downloads/
+If you have the jar and zip files previously downloaded, just place your files under `%VM_VAGRANT_HOME%/_downloads/`
 
 My directory structure looks like:
 
@@ -339,7 +339,7 @@ Here an useful document explaining how to deploy/undeploy WSO2 C-Apps (car files
 https://docs.wso2.com/display/DVS371/Deploying+and+Debugging#DeployingandDebugging-DeployingaC-ApptomultipleserversusingtheMavenplug-in
 
 Well, I have created a WSO2 Multi-maven project ready to be deployed from Maven in WSO2 ESB-front and WSO2 ESB-back.
-This simple WSO2 project implements an `Echo API` and includes a set of Pass Through Proxies, APIs, Enfpoints and Sequence Templates. In the next days this Project will be improved, now let me explain how to build and deploy it properly using Maven.
+This simple WSO2 project implements an `Echo API` and includes a set of Pass Through Proxies, APIs, Endpoints and Sequence Templates. In the next days this Project will be improved, now let me explain how to build and deploy it properly using Maven.
 
 __1) Configure Maven properly__
 If you want deploy the car file to Maven repsitory, then you will need to configure your `.m2/conf/settings.xml` with the correct repositories. In my case, I am using Apache Archiva 2.2.0 (http://archiva.apache.org) and this is my `settings.xml`:

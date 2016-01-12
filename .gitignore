@@ -20,6 +20,7 @@ Servers/
 target/
 .idea
 .vagrant
+*.gz
 *.jar
 *.zip
 *.iso
@@ -29,4 +30,4 @@ _mnt_wso2esb01a/
 _mnt_wso2esb02a/
 _mnt_wso2dss01a/
 _mnt_wso2greg01a/
-
+_mnt_wso2esb490/

@@ -106,6 +106,60 @@ class wso2greg {
 
 }
 
+class activemq {
+
+  class { '::activemq::untargzip_bundle':
+    bundle_name => 'apache-activemq-5.12.1-bin.tar.gz',
+    user_name => 'vagrant',
+    group_name => 'vagrant'
+  } -> 
+
+  class { '::activemq::copy_files':
+    server_name_array => ['activemq'],
+    bundle_name => 'apache-activemq-5.12.1',
+    user_name => 'vagrant',
+    group_name => 'vagrant'
+  } -> 
+
+  class { '::activemq::setup_broker':
+    server_name_array => ['activemq'],
+  } -> 
+
+  class { '::activemq::delete_temps':
+    bundle_name => 'apache-activemq-5.12.1',
+    user_name => 'vagrant',
+    group_name => 'vagrant'
+  } 
+
+}
+
+class wso2esb490 {
+
+  class { '::wso2esb490::unzip_bundle':
+    wso2_bundle_name => 'wso2esb-4.9.0',
+    wso2_user_name => 'vagrant',
+    wso2_group_name => 'vagrant'
+  } -> 
+
+  class { '::wso2esb490::copy_files':
+    wso2_server_name_array => ['wso2esb490'],
+    wso2_bundle_name => 'wso2esb-4.9.0',
+    wso2_user_name => 'vagrant',
+    wso2_group_name => 'vagrant'
+  } -> 
+
+  class { '::wso2esb490::setup_carbon':
+    wso2_server_name_array => ['wso2esb490'],
+  } -> 
+
+  class { '::wso2esb490::delete_temps':
+    wso2_bundle_name => 'wso2esb-4.9.0',
+    wso2_user_name => 'vagrant',
+    wso2_group_name => 'vagrant'
+  } 
+
+}
+
 class wiremock { 
 
   class { '::wiremock::set_wiremock': 
@@ -176,3 +230,5 @@ include wso2dss
 include wso2greg
 include wiremock
 include rtail
+include activemq
+include wso2esb490

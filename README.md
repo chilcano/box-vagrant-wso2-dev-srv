@@ -168,7 +168,7 @@ To close the running server, just `CTRL+C` in the shell console where the server
 $ sudo service %WSO2_SERVER_NAME% start|stop|restart
 ```
 
-The WSO2 scripts available in /etc/init.d/ match with the name of WSO2 and Wiremock instances and they are:
+The WSO2 scripts available in `/etc/init.d/` match with the name of WSO2 and Wiremock instances and they are:
 * `wso2am02a`
 * `wso2esb01`
 * `wso2esb02`
@@ -204,7 +204,7 @@ The `wiremock` script doesn't require to enable to start automatically when boot
 
 Now, if you reboot the VM, the `%WSO2_SERVER_NAME%` will start too.
 
-If you want to disable the init.d scripts, just execute the next command:
+If you want to disable the `init.d` scripts, just execute the next command:
 ```
 $ sudo update-rc.d %WSO2_SERVER_NAME% disable
 ```
@@ -328,7 +328,7 @@ Just open this URL `http://localhost:8181` in your Browser (Host) and you should
 <img src="https://github.com/Chilcano/box-vagrant-wso2-dev-srv/blob/master/_downloads/chilcano-box-vagrant-wso2-dev-srv-rtail-logs.png" width="300" alt="rTail to collect and visualize all WSO2 logs from a Browser"/>
 
 
-## Monitoring the Infraestructure
+## Monitoring the Infrastructure
 
 _Soon I will use one of them: Riemann, Jolokia, CollectD/Graphite, Grafana, etc...._
 

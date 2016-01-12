@@ -1,0 +1,114 @@
+#!/bin/bash
+#
+### BEGIN INIT INFO
+# Provides:          wso2esb490
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Service to start and stop server
+# Description:       Deamon service to start and stop server
+### END INIT INFO
+
+PRODUCT_CODE="wso2esb490"
+USER="vagrant"
+PID_FILE="/opt/${PRODUCT_CODE}/wso2carbon.pid"
+CMD="/opt/${PRODUCT_CODE}/bin/wso2server.sh"
+JAVA_HOME="/usr/java/latest"
+
+export JAVA_HOME=$JAVA_HOME
+
+# Start the service
+do_start() {
+  if [ -f $PID_FILE ]
+    then
+      PID=`cat $PID_FILE`
+      # Check if PID exists
+      ps -fp $PID > /dev/null 2>&1
+      VAL=$?
+    else
+      PID='null'
+      VAL=3
+  fi
+
+  # VAL=0 -> PID exist
+  # VAL=1 -> PID not exist
+
+  if [ $VAL -eq 0 ]
+    then
+      echo "[$PRODUCT_CODE] server is already running (pid "$PID")"
+    else
+      echo -n "[$PRODUCT_CODE] starting server ... "
+      sleep 10
+      su - $USER -c "$CMD start > /dev/null 2>&1" &
+      sleep 5
+      PID=`cat $PID_FILE`
+      if [ $PID -eq 0 ]
+        then
+          echo "failure (pid "$PID")"
+        else
+          echo "success (pid "$PID")"
+      fi
+  fi
+}
+
+# Stop the service
+do_stop() {
+  if [ -f $PID_FILE ]
+    then
+      PID=`cat $PID_FILE`
+      echo -n "[$PRODUCT_CODE] stopping server ... "
+      su - $USER -c "$CMD stop > /dev/null 2>&1" &
+      sleep 10
+      if [ $PID -eq 0 ]
+        then
+          echo "failure (pid "$PID")"
+        else
+          rm -f $PID_FILE
+          echo "success (pid "$PID")"
+      fi
+    else
+      echo "[$PRODUCT_CODE] server is already stopped (pid not found)."
+  fi
+}
+
+# Status the service
+do_status() {
+  if [ -f $PID_FILE ]
+    then
+      PID=`cat $PID_FILE`
+      ps -fp $PID > /dev/null 2>&1
+      PIDVAL=$?
+    else
+      PIDVAL=3
+  fi
+
+  if [ $PIDVAL -eq 0 ]
+    then
+      echo "[$PRODUCT_CODE] server is running (pid "$PID")"
+    else
+      echo "[$PRODUCT_CODE] server is stopped."
+  fi
+  return $PIDVAL
+}
+
+### main logic ###
+case "$1" in
+start)
+    do_start
+    ;;
+stop)
+    do_stop
+    ;;
+status)
+    do_status
+    ;;
+restart|reload)
+    do_stop
+    do_start
+    ;;
+*)
+   echo $"Usage: $0 {start|stop|restart|reload|status}"
+   exit 1
+esac
+exit $?

@@ -21,6 +21,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder "_mnt_wso2esb02a/", "/opt/wso2esb02a", create: true
   config.vm.synced_folder "_mnt_wso2dss01a/", "/opt/wso2dss01a", create: true
   config.vm.synced_folder "_mnt_wiremock/", "/opt/wiremock", create: true
+  config.vm.synced_folder "_mnt_wso2esb490/", "/opt/wso2esb490", create: true
 
   # ==================================== #
   # WSO2 STACK FOR DEVELOPMENT (SERVERS) #
@@ -51,6 +52,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # RTAIL
     wso2srv.vm.network "forwarded_port", guest: 8181, host: 8181
+
+    # ACTIVEMQ Web Admin Console
+    wso2srv.vm.network "forwarded_port", guest: 8161, host: 8161
+
+    # ESB 4.9.0 (offset +10)
+    wso2srv.vm.network "forwarded_port", guest: 9453, host: 9453
+    wso2srv.vm.network "forwarded_port", guest: 8290, host: 8290
 
     wso2srv.vm.provider "virtualbox" do |vb|
       # Enable operations from VirtualBox GUI

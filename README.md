@@ -482,24 +482,14 @@ __4) Check if the WSO2 C-App was deployed__
 Just check the WSO2 logs or verify from Carbon Web Admin Console if all artifact were deployed.
 
 
-## Updates
-
-- 2015.11.13: Added the rTail puppet module 
-- 2015.11.20: 
-  * Added Wiremock samples (echo mock services) and WSO2 ESB multi-maven project.
-  * Added `_downloads/vagrant-vboxguestadditions-workaroud.md`.
-  * Added functionality to automount WSO2 folders of Guest to Host.
-  * Improved README.md with information how to work with rTail.
-
-
 ## TODO
 
 - Load balancing and Virtual Hosts/IPs (HA Proxy or nginx)
 - Custom HealthCheck
 - Correlation propagation between WSO2 servers and Backend 
 - Custom Mediators (Authentication, Authorization, Logging, Correlation, Common Validations and Transformations)
-- WSO2 services patterns deployed as samples
-- Docker
+- ~~WSO2 services patterns deployed as samples~~ (Check It here: https://github.com/chilcano/wso2-ei-patterns)
+- ~~Docker~~ (Check It here: https://holisticsecurity.wordpress.com/2016/01/11/strategy-to-create-microservices-using-wso2-and-docker)
 
 
 ## Resources

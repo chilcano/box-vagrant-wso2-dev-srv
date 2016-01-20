@@ -1,9 +1,0 @@
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-   <soapenv:Body>
-      <soapenv:Fault xmlns:axis2ns10="http://schemas.xmlsoap.org/soap/envelope/">
-         <faultcode>axis2ns10:Client</faultcode>
-         <faultstring>Invalid value "12345678901234567890" for element in</faultstring>
-         <detail/>
-      </soapenv:Fault>
-   </soapenv:Body>
-</soapenv:Envelope>

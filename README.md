@@ -1,4 +1,10 @@
-# WSO2 Development Server Box
+# Vagrant WSO2 Development Server Box
+
+> This Vagrant box was the older [box-vagrant-wso2-dev-srv](https://holisticsecurity.wordpress.com/2015/11/11/creating-a-vm-with-wso2-servers-for-development).
+> I have removed the rTail Puppet modules to create a new rTail server Docker Container.
+> The older GitHub repository for [box-vagrant-wso2-dev-srv](https://holisticsecurity.wordpress.com/2015/11/11/creating-a-vm-with-wso2-servers-for-development) will not be updated.
+> I recommend you using this new one, more lightweight and flexible.
+
 
 This VM is suitable to develop with WSO2 products and puts focus only in the `server side` (WSO2 servers, mock server and different tools to host our micro/services) and not in `desktop side` (Eclipse, SoapUI, Maven, etc.).
 The main objetive is to have a VM with all WSO2 products installed and configured to be ready for development and following the most common Middleware infrastructure pattern used to create (Micro)services.
@@ -42,7 +48,7 @@ My directory structure looks like:
 %VM_VAGRANT_HOME%/Vagrantfile
 ```
 
-## Servers included
+## 1. Servers/products included in this Vagrant box
 
 The servers installed and configured are:
 
@@ -88,12 +94,6 @@ __Wiremock (as backend)__
 * URL: [http://localhost:7788/__admin](http://localhost:7788/__admin)
 * Useful to implement mock services (REST and SOAP)
 
-__rTail server (logging)__
-* HTTP Port (view logs): 8181
-* UDP Port (receive logs): 9191
-* URL: [http://localhost:8181](http://localhost:8181)
-* Useful to trail log events
-
 ### Details about the installed servers
 
 - The servers are installed under the `/opt/` folder.
@@ -101,19 +101,18 @@ __rTail server (logging)__
 - The WSO2 Administrator username and password are `admin/admin`.
 
 
-## Getting starting with VM
+## 2. Getting starting
 
-__1) Download the VM__
+__1) Download the Vagrant scripts__
 
 ```
-$ mkdir -p ~/github-repo/vagrant/
-$ git clone https://github.com/Chilcano/vagrant/wso2-dev-srv.git
-$ cd ~/github-repo/vagrant/wso2-dev-srv
+$ git clone https://github.com/chilcano/vagrant-wso2-dev-srv.git
+$ cd ~/github-repo/vagrant-wso2-dev-srv
 ```
 
-__2) Start the VM__
+__2) Start the Vagrant box__
 
-The first time this process will take long time becuase the ISO image and Software to be installed will download.
+The first time this process will take long time becuase the ISO Linux image and the WSO2 and required software have to be downloaded, unzipped and installed.
 
 ```
 $ vagrant up
@@ -121,28 +120,40 @@ $ vagrant up
 
 __3) Stop, reload and re/provisioning__
 
-```
+
+To stop the Vagrant box.
+```bash
 $ vagrant halt
+```
+
+
+If you modify the Puppet scrips or change or open more ports, then you have to start with the flag `provision` and `reload` enabled, or both enabled.
+```bash
 $ vagrant reload
 $ vagrant provision
 ```
 
-Reload and provision:
-```
+Reload and provision.
+```bash
 $ vagrant reload --provision
 ```
 
-__4) SSH access to the VM__
+__4) Get SSH access to the Vagrant box__
 
 ```
 $ vagrant ssh
 ```
 
-## Starting the WSO2 servers and Wiremock
 
-1) When starting the first time any WSO2 server have to be started running this command `wso2server.sh -Dsetup` in your VM with the user `vagrant`:
+## 3. Starting the WSO2 servers and Wiremock
 
-```
+
+__1) Starting the WSO2 servers__
+
+When starting the first time any WSO2 server, you have to start it by running with this command `wso2server.sh -Dsetup` and using the user `vagrant`.
+With the `-Dsetup` flag, WSO2 will initialize the local/internal Database and will populate with a few data.
+
+```bash
 $ ./opt/%WSO2_SERVER_NAME%/bin/wso2server.sh -Dsetup
 ...
 [2015-11-11 07:21:20,886]  INFO - RegistryEventingServiceComponent Successfully Initialized Eventing on Registry
@@ -159,16 +170,20 @@ Repeat this process for each WSO2 instance by replacing `%WSO2_SERVER_NAME%` for
 * `wso2dss01a`
 * `wso2greg01a` 
 
-To close the running server, just `CTRL+C` in the shell console where the server is running.
+To close the running server, just `CTRL+C` in the shell console where the server is running, this will release the shell console.
 
 
-2) The next times when starting the WSO2 servers, I recommend to use the `init.d` scripts already created. Using these scripts the WSO2 instances will start as a Linux service.
+__2) Starting WSO2 the next time__
 
+The next times when starting the WSO2 servers, I recommend to use the `init.d` scripts already created instead of `wso2server.sh` directly.
+Using these `init.d` scripts the WSO2 instances will start as a Linux service and will create `pid` and `lock` files.
+
+
+```bash
+$ sudo service %WSO2_SERVER_NAME% start|stop|restart|status
 ```
-$ sudo service %WSO2_SERVER_NAME% start|stop|restart
-```
 
-The WSO2 scripts available in `/etc/init.d/` match with the name of WSO2 and Wiremock instances and they are:
+The `init.d` scripts available in `/etc/init.d/` match with the name of WSO2 and Wiremock instances and they are:
 * `wso2am02a`
 * `wso2esb01`
 * `wso2esb02`
@@ -177,45 +192,33 @@ The WSO2 scripts available in `/etc/init.d/` match with the name of WSO2 and Wir
 * `wiremock`
 
 
-Wiremock doesn't require to run an initial script, to start Wiremock as a Linux service just use this:
 
-```
-$ sudo service wiremock start|stop|restart
-```
+## 4. Enabling linux services to start automatically
 
+I have faced some troubles using `init.d` scripts in this Vagrant box (probably is because it is based on Ubuntu image) where I have lost the control of every server when starting, reloading and provisioning thi Vagrant box, for this reason I recommend you do not enable the services to start automatically on boot up.
 
-## Enabling linux services to start automatically
-
-All WSO2 servers and Wiremock can start automatically when booting the VM, to do that, just apply `defaults` or `enable` to the run levels for all above `init.d` scripts:
-
-```
+I have removed the Puppet scripts to enable this functionality, but if you want do it, below are the commands:
+```bash
 $ sudo update-rc.d %WSO2_SERVER_NAME% defaults
+```
+Or
+```bash
 $ sudo update-rc.d %WSO2_SERVER_NAME% enable
 ```
 
-Where `%WSO2_SERVER_NAME%` could be:
-* `wso2am02a`
-* `wso2esb01`
-* `wso2esb02`
-* `wso2dss01a`
-* `wso2greg01a`
-
-The `wiremock` script doesn't require to enable to start automatically when booting because `wiremock` was already enabled using Puppet modules.
-
-Now, if you reboot the VM, the `%WSO2_SERVER_NAME%` will start too.
-
-If you want to disable the `init.d` scripts, just execute the next command:
-```
+To disable it, just execute the next command:
+```bash
 $ sudo update-rc.d %WSO2_SERVER_NAME% disable
 ```
 
-To check what Linux services are running, just execute this in your VM:
-
+To remove completly, but after that make sure to restart the Vagrant image:
+```bash
+$ sudo update-rc.d %WSO2_SERVER_NAME% remove
 ```
+
+To check what Linux services are running or enabled, just execute this in your VM:
+```bash
 $ service --status-all
- ...
- [ + ]  rtail
- [ + ]  rtailsendlogs
  ...
  [ + ]  wiremock
  [ - ]  wso2am02a
@@ -226,263 +229,26 @@ $ service --status-all
  ...
 ```
 
-## Monitoring the (Micro)services: Logging
 
-Trailing and checking of the performance and the health of (micro)services are important tasks to be accomplished.
-The logging is a time consuming process and we have to prepare before in order to be more productive.
-There are many tools out there, opensource, commercial, on-cloud, such as log.io, ELK, Clarity, rTail, Tailon, frontail, etc. In my opinion, for a VM used to development the most simple, fresh and lightweight tool is rTail (http://rtail.org).
+## 5. Monitoring the (Micro)services: Logging
 
-With rTail I can collect different log files, track and visualize them from a Browser in __real time__. rTail is very easy to use, just install NodeJS and deploy rTail application and you will be ready to send any type of traces to Browser directly avoiding store/persist logs, index and parse/filter them. 
+Check out these posts:
 
-### Using rTail
-
-I have created a Puppet module for rTail and a set of scripts to collect and send traces of all WSO2 instances and Wiremock to the Browser.
-
-Below the steps to follow:
-
-__1) The rTail Vagrant re-provisioning__
-
-```
-$ cd ~/github-repo/box-vagrant-wso2-dev-srv
-$ git pull
-$ vagrant reload --provision
-```
-
-__2) Check node.js and rTail installation__
-
-```
-$ cd ~/github-repo/box-vagrant-wso2-dev-srv
-$ vagrant ssh
-```
-
-```
-vagrant@wso2-dev-srv-01 $ node -v
-v0.10.25
-
-vagrant@wso2-dev-srv-01 $ npm list -g rtail
-/usr/local/lib
-└── rtail@0.2.1
-```
-
-__3) Checking if rTail server is running__
-
-The configuration for rTail server is:
-* UDP port: 9191
-* HTTP port: 8181 
-* rTail home folder: `/opt/rtail`
-* Script init.d for rTail server: `/etc/init.d/rtail`
-* Script init.d to send all logs to rTail server: `/etc/init.d/rtailsendlogs`
-
-Now, make sure the rTail server is running. 
-
-```
-$ service --status-all
- ...
- [ + ]  rtail
- [ + ]  rtailsendlogs
- ...
-
-$ sudo service rtail status
-[rTail] server is running (pid 1234)
-```
-
-There is a rTail Puppet module to enable the rTail server to start automatically when booting the VM.
-In other words, rTail server always is listening in the port UDP to receive events and logs. 
-
-__4) Sending logs to rTail server__
-
-I have created a bash script to send all log events to the rTail server. The above rTail Puppet module also enables it to start automatically  to send logs to rTail server when booting the VM. 
-
-You can find the bash script under `/etc/init.d/rtailsendlogs` and can run it whenever, as shown below:
-
-```
-$ sudo service rtailsendlogs status
-[wso2am02a] is sending logs to rTail.
-[wso2esb01a] is sending logs to rTail.
-[wso2esb02a] is sending logs to rTail.
-[wso2dss01a] is sending logs to rTail.
-[wso2greg01a] is sending logs to rTail.
-[wiremock] is sending logs to rTail.
-
-$ sudo service rtailsendlogs stop
-[wso2am02a] is stopping sending logs to rTail ... success
-[wso2esb01a] is stopping sending logs to rTail ... success
-[wso2esb02a] is stopping sending logs to rTail ... success
-[wso2dss01a] is stopping sending logs to rTail ... success
-[wso2greg01a] is stopping sending logs to rTail ... success
-[wiremock] is stopping sending logs to rTail ... success
-
-$ sudo service rtailsendlogs start
-[wso2am02a] is starting sending logs to rTail ... success
-[wso2esb01a] is starting sending logs to rTail ... success
-[wso2esb02a] is starting sending logs to rTail ... success
-[wso2dss01a] is starting sending logs to rTail ... success
-[wso2greg01a] is starting sending logs to rTail ... success
-[wiremock] is starting sending logs to rTail ... success
-```
-
-__5) Visualizing all logs from Browser using rTail__
-
-Just open this URL `http://localhost:8181` in your Browser (Host) and you should view the next:
-
-<img src="https://github.com/Chilcano/box-vagrant-wso2-dev-srv/blob/master/_downloads/chilcano-box-vagrant-wso2-dev-srv-rtail-logs.png" width="300" alt="rTail to collect and visualize all WSO2 logs from a Browser"/>
+- https://holisticsecurity.wordpress.com/2015/11/20/rtail-a-tool-to-collect-and-view-the-wso2-logs-in-a-browser
+- https://holisticsecurity.wordpress.com/2016/01/19/log-events-management-wso2-microservices-elk-rtail-part-i
 
 
-## Monitoring the Infrastructure
+## 6. Monitoring the Infrastructure
 
 _Soon I will use one of them: Riemann, Jolokia, CollectD/Graphite, Grafana, etc...._
 
 
-## Deploying WSO2 C-App (car file) from Maven
+## 7. Deploying WSO2 C-App (car files) from Maven
 
-Here an useful document explaining how to deploy/undeploy WSO2 C-Apps (car files) from Maven using `maven-car-deploy-plugin`: 
-https://docs.wso2.com/display/DVS371/Deploying+and+Debugging#DeployingandDebugging-DeployingaC-ApptomultipleserversusingtheMavenplug-in
-
-Well, I have created a WSO2 Multi-maven project ready to be deployed from Maven in WSO2 ESB-front and WSO2 ESB-back.
-This simple WSO2 project implements an `Echo API` and includes a set of Pass Through Proxies, APIs, Endpoints and Sequence Templates. In the next days this Project will be improved, now let me explain how to build and deploy it properly using Maven.
-
-__1) Configure Maven properly__
-If you want deploy the car file to Maven repsitory, then you will need to configure your `.m2/conf/settings.xml` with the correct repositories. In my case, I am using Apache Archiva 2.2.0 (http://archiva.apache.org) and this is my `settings.xml`:
-
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
-
-<!-- localRepository
-   | The path to the local repository maven will use to store artifacts.
-   |
-   | Default: ${user.home}/.m2/repository
-  <localRepository>/Users/Chilcano/2maven-repo</localRepository>
-  -->
-
-  <pluginGroups>
-  </pluginGroups>
-
-  <proxies>
-  </proxies>
-
-  <servers>
-    <!-- User created from Archiva web console -->
-    <server>
-      <id>my.internal</id>
-      <username>chilcano</username>
-      <password>chilcano1</password>
-    </server>   
-    <server>
-      <id>my.snapshots</id>
-      <username>chilcano</username>
-      <password>chilcano1</password>
-    </server>
-  </servers>
-
-  <mirrors>
-    <!-- This config will create a mirror of 'central' repo -->
-    <mirror>
-      <id>my.internal</id>
-      <url>http://localhost:8080/repository/internal/</url>
-      <mirrorOf>central</mirrorOf>
-    </mirror>
-    <mirror>
-      <id>my.snapshots</id>
-      <url>http://localhost:8080/repository/snapshots/</url>
-      <mirrorOf>snapshots</mirrorOf>
-    </mirror>
-  </mirrors>
- 
-  <profiles>
-    <!-- Two repositories added (internal releases and snapshots) -->
-    <profile>
-      <id>default</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <repositories>
-        <repository>
-          <id>internal</id>
-          <url>http://localhost:8080/repository/internal/</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>snapshots</id>
-          <url>http://localhost:8080/repository/snapshots/</url>
-          <releases>
-            <enabled>false</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
-        </repository>
-      </repositories>
-    </profile>
-  </profiles>
-
-</settings>
-```
-
-__2) Configure your Parent POM file of your C-App Project__
-
-In this case, our pom.xml is located under `~/1github-repo/box-vagrant-wso2-dev-srv/_src/wso2-pattern01-echoapi/pattern01-parent-echoapi/` where `~/1github-repo/box-vagrant-wso2-dev-srv/` is the directory where this Vagrant Box repo was downloaded.
-
-Basically, this pom.xml has been configured following the instructions of above URL (https://docs.wso2.com/display/DVS371/Deploying+and+Debugging#DeployingandDebugging-DeployingaC-ApptomultipleserversusingtheMavenplug-in).
+_Soon I will post further details how to do that._
 
 
-__3) Using Maven to build, deploy and undeploy WSO2 C-App Project__
-
-
-```
-# Go to your Project directory:
-$ cd ~/1github-repo/box-vagrant-wso2-dev-srv/_src/wso2-pattern01-echoapi/pattern01-parent-echoapi/ 
-
-# To _build_:
-$ mvn clean install
-
-# To _deploy_ in both remote WSO2 ESB servers and Maven repository:
-$ mvn clean deploy -Dmaven.car.deploy.skip=false -Dmaven.deploy.skip=false -Dmaven.wagon.http.ssl.insecure=true -Dmaven.car.deploy.operation=deploy
-
-# To _undeploy_ in both remote WSO2 ESB servers and Maven repository:
-$ mvn clean deploy -Dmaven.car.deploy.skip=false -Dmaven.deploy.skip=false -Dmaven.wagon.http.ssl.insecure=true -Dmaven.car.deploy.operation=deploy
-```
-
-If `-Dmaven.deploy.skip=false` is used, then use this `-Dmaven.wagon.http.ssl.insecure=true`, because It avoids the below error when deploying or undeploying.
-
-```
-...
-[INFO] --- maven-car-deploy-plugin:1.1.0:deploy-car (default-deploy-car) @ pattern01-echoapi ---
-[INFO] Deploying to Server...
-[INFO] TSPath=/Users/Chilcano/1github-repo/box-vagrant-wso2-dev-srv/_mnt_wso2esb01a/repository/resources/security/wso2carbon.jks
-[INFO] TSPWD=wso2carbon
-[INFO] TSType=JKS
-[INFO] Server URL=https://localhost:9449
-[INFO] UserName=admin
-[INFO] Password=admin
-[INFO] Operation=undeploy
-log4j:WARN No appenders could be found for logger (org.apache.axis2.description.AxisOperation).
-log4j:WARN Please initialize the log4j system properly.
-[ERROR] Deleting pattern01-echoapi_1.0.0.car to https://localhost:9449 Failed.
-org.apache.axis2.AxisFault: Connection has been shutdown: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
-	at org.apache.axis2.AxisFault.makeFault(AxisFault.java:430)
-	at org.apache.axis2.transport.http.SOAPMessageFormatter.writeTo(SOAPMessageFormatter.java:78)
-	at org.apache.axis2.transport.http.AxisRequestEntity.writeRequest(AxisRequestEntity.java:84)
-...
-	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
-	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
-	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
-Caused by: com.ctc.wstx.exc.WstxIOException: Connection has been shutdown: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
-```
-
-__4) Check if the WSO2 C-App was deployed__
-
-Just check the WSO2 logs or verify from Carbon Web Admin Console if all artifact were deployed.
-
-
-## TODO
+## 8. TODO
 
 - Load balancing and Virtual Hosts/IPs (HA Proxy or nginx)
 - Custom HealthCheck
@@ -492,7 +258,7 @@ Just check the WSO2 logs or verify from Carbon Web Admin Console if all artifact
 - ~~Docker~~ (Check It here: https://holisticsecurity.wordpress.com/2016/01/11/strategy-to-create-microservices-using-wso2-and-docker)
 
 
-## Resources
+## 9. Resources
 
 - Puppet 3.4.3 (http://docs.puppetlabs.com/references/3.4.latest)
 - Enabling future parser in Puppet (http://blog.bluemalkin.net/iteration-in-puppet-using-the-future-parser)
@@ -501,7 +267,8 @@ Just check the WSO2 logs or verify from Carbon Web Admin Console if all artifact
 - Official WSO2 Documentation (https://docs.wso2.com)
 - Vagrant Tip: Sync VirtualBox Guest Additions (http://kvz.io/blog/2013/01/16/vagrant-tip-keep-virtualbox-guest-additions-in-sync)
 
-## Troubleshooting
+
+## 10. Troubleshooting
 
 1.- `Error: Cannot allocate memory - fork(2)`
 

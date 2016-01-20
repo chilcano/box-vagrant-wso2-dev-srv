@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sequence name="pattern01-echoint-front-seq-error" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
-      <log level="custom">
-         <property name="MENSAJE" value="MENSAJE API ECHO INT DE ERROR"/>
-      </log>
-</sequence>
